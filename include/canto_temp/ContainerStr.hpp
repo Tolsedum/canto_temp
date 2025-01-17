@@ -10,6 +10,7 @@ namespace canto_temp{
         std::string_view::const_iterator begin_;
         std::string_view::const_iterator end_;
         bool is_end_;
+        int pos_;
 
         void constructor_();
     public:
@@ -27,6 +28,12 @@ namespace canto_temp{
         bool isEnd() override;
         char current() override;
         char next() override;
+        int pos() override;
+        void setPos(int) override;
+        std::size_t find(std::string_view str, std::size_t p = 0) override;
+        std::size_t find(char c, std::size_t p = 0) override;
+
+        void print() override {std::cout<< begin_ << std::endl;};
     };
 }
 

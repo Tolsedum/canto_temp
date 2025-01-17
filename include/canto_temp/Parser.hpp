@@ -1,12 +1,9 @@
 #ifndef PARSER_HPP
 #define PARSER_HPP
 
-#include <map>
-#include <vector>
-#include "canto_temp/Container.hpp"
+#include "canto_temp/parser logic/Variables.hpp"
 #include "canto_temp/ContainerStr.hpp"
 #include "canto_temp/FileContainer.hpp"
-#include "canto_temp/Object.hpp"
 
 namespace canto_temp{
     struct ContentParser{
@@ -43,9 +40,14 @@ namespace canto_temp{
     class Parser{
         std::string* output_;
         std::map<std::string, Object> obj_list_;
-        Container* container;
+        Container* container_;
+        parser_logic::Variables* var_controller_;
         
-        void contentInit(ContentParser& contentParser);
+        void contentInit(ContentParser&& contentParser);
+        std::string readContent(char tag);
+        
+        std::string readVariableBlock();
+        
     public:
         Parser(
             std::string& output,
@@ -53,9 +55,9 @@ namespace canto_temp{
         );
         Parser(
             std::string&& output,
-            ContentParser& contentParser
+            ContentParser&& contentParser
         );
-        ~Parser(){delete container;};
+        ~Parser();
 
         void assign(std::map<std::string, Object>&);
         void assign(std::string&, std::map<std::string, Object>&);
