@@ -39,9 +39,10 @@ namespace canto_temp{
     };
     class Parser{
         std::string* output_;
-        std::map<std::string, Object> obj_list_;
-        Container* container_;
-        parser_logic::Variables* var_controller_;
+        std::shared_ptr<Container> container_;
+        std::shared_ptr<parser_logic::Variables> var_controller_;
+
+        std::map<std::string, Dictionary> obj_list_;
         
         void contentInit(ContentParser&& contentParser);
         std::string readContent(char tag);
@@ -57,13 +58,17 @@ namespace canto_temp{
             std::string&& output,
             ContentParser&& contentParser
         );
-        ~Parser();
+        ~Parser(){};
 
-        void assign(std::map<std::string, Object>&);
-        void assign(std::string&, std::map<std::string, Object>&);
+        void assign(std::map<std::string, Dictionary>&);
+        void assign(std::string&, std::map<std::string, Dictionary>&);
 
         std::string render();
-        std::string render(std::map<std::string, Object>);
+        std::string render(std::map<std::string, Dictionary>);
+
+        void addFilterFunctions(
+            std::string& func_name, std::function<void(std::string&)>
+        );
     };
 };
 

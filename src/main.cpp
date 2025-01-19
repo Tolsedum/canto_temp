@@ -3,6 +3,8 @@
 #include "canto_temp/ContainerStr.hpp"
 #include "canto_temp/FileContainer.hpp"
 
+#include "../tests/test_variables.cpp"
+
 void exist(canto_temp::Container * con){
     std::size_t pos = con->find("world");
     con->setPos(pos);
@@ -57,31 +59,19 @@ void testContainer(){
 }
 
 void testParser(){
-    std::vector<std::map<std::string, canto_temp::Object>> xs;
-    xs.push_back({
+    std::map<std::string, canto_temp::Dictionary> xs{
         { "enable", true },
         { "url", "http://example.com" },
-        { "value", "Example" },
-    });
-    xs.push_back({
-        { "enable", false },
-        { "url", "undefined" },
-        { "value", "Test" },
-    });
-    xs.push_back({
-        { "enable", true },
-        { "url", "http://google.com" },
-        { "value", "Google" },
-        { "value_", std::vector<int>{1, 2} },
+        // { "value", "Example" },
+        { "value", std::vector<int>{1, 2} },
         { "sss", 15.15 },
-    });
-
-
-    std::map<std::string, canto_temp::Object> t;
+    };
+    
+    std::map<std::string, canto_temp::Dictionary> t;
     t["title"] = "Sample Site";
     t["xs"] = xs;
 
-    std::string temp{"<div>{{ xs.sss }}</div>"};
+    std::string temp{"{#\n Test \n#}<div>{{ xs.value.[0] }}</div>"};
     std::string output;
 
     canto_temp::ContentParser contentParser;
@@ -92,16 +82,40 @@ void testParser(){
         std::move(contentParser)
     );
     parser.assign(t);
-    parser.render();
+    
+    // parser.render();
     std::cout << output << std::endl;
 }
 
+/** 
+ * ToDo
+ * Условные блоки
+ * Создание кастомных переменных
+ * Тернарный оператор
+ * Оператор нулевой коалесценции
+ * Наследование шаблонов 
+ * Включение других шаблонов
+ * 
+ * Вывод предупреждения для отладки
+ * Создать throw объект для обработки ошибок
+ * Список стандартных фильтров
+*/
+
+/**
+ * Выполнил:
+ * Фильтры
+ * Вставка комментария
+ * Доступ к переменным
+ * Доступ к элементам массива
+ * Доступ к vector
+ */
 
 int main(){ // int argc, char *argv[]
-    
-    testParser();
+
+    // testParser();
     // testContainer();
-    
+    listTest();
+
     return 0;
     
 }

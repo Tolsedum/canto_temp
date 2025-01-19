@@ -13,7 +13,10 @@ namespace canto_temp{
         std::size_t file_size_;
     public:
         FileContainer(std::string_view file_name);
-        ~FileContainer(){file_p_.close();};
+        ~FileContainer(){
+            std::cout << "~FileContainer" << std::endl;
+            file_p_.close();
+        };
         bool isEnd() override;
         char current() override;
         char next() override;

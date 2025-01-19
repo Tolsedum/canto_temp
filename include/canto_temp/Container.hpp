@@ -8,7 +8,7 @@ namespace canto_temp{
     class Container{
     public:
     
-        virtual ~Container(){};
+        virtual ~Container() = default;
         virtual bool isEnd() = 0;
         virtual char current() = 0;
         virtual char next() = 0;
@@ -22,23 +22,3 @@ namespace canto_temp{
 }
 
 #endif // CANTO_TMP_CONTAINER_HPP
-
-/** 
- * ToDo
- * 
- * Доступ к переменным
- * Доступ к элементам массива
- * фильтры
- * Условные блоки
- * Тернарный оператор
- * Оператор нулевой коалесценции
- * Наследование шаблонов 
- * Включение других шаблонов
- * 
- * Создать throw объект для обработки ошибок
-*/
-
-/**
- * Выполнил
- * Вставка комментария
- */
