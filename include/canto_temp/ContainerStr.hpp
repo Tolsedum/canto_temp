@@ -1,7 +1,6 @@
 #ifndef CONTAINER_STR_HPP
 #define CONTAINER_STR_HPP
 
-#include <string>
 #include "canto_temp/Container.hpp"
 
 namespace canto_temp{
@@ -26,6 +25,7 @@ namespace canto_temp{
         }
         ~ContainerStr(){};
         bool isEnd() override;
+        bool isNotEnd() override;
         char current() override;
         char next() override;
         int pos() override;

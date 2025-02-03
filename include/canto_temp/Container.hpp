@@ -10,6 +10,7 @@ namespace canto_temp{
     
         virtual ~Container() = default;
         virtual bool isEnd() = 0;
+        virtual bool isNotEnd() = 0;
         virtual char current() = 0;
         virtual char next() = 0;
         virtual int pos() = 0;

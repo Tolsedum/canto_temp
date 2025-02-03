@@ -12,6 +12,11 @@ bool canto_temp::ContainerStr::isEnd(){
     return is_end_ || ++begin == end_;
 };
 
+bool canto_temp::ContainerStr::isNotEnd(){
+    auto begin = begin_;
+    return !(is_end_ || ++begin == end_);
+};
+
 char canto_temp::ContainerStr::current(){
     return begin_[0];
 }

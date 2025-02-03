@@ -1,6 +1,7 @@
 #ifndef OBJECT_HPP
 #define OBJECT_HPP
 
+#include <iostream>
 #include <functional>
 #include <string>
 #include <memory>
@@ -29,9 +30,12 @@ namespace canto_temp{
         bool get_(int) const {
             return static_cast<bool>(obj);
         }
+
         template<class>
         bool get_(...) const {
             throw std::string(
+                std::string(typeid(obj).name()) + 
+
                 "\nWarning to Line: "
                     + std::to_string(__LINE__) 
                     + " This value does not evaluate\n"

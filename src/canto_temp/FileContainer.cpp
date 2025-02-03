@@ -13,6 +13,10 @@ bool canto_temp::FileContainer::isEnd(){
     return file_p_.is_open() && file_p_.eof();
 }
 
+bool canto_temp::FileContainer::isNotEnd(){
+    return !(file_p_.is_open() && file_p_.eof());
+}
+
 char canto_temp::FileContainer::current(){
     return current_;
 }

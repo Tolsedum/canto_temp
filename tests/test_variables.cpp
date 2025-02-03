@@ -47,10 +47,10 @@ void testInsertVars(
 ){
     std::string output;
     for (std::string content : {
-        "<div>test: {{ test }}</div>",
+        "<div>{{ title }}</div>",
         "<div>{{ xs[0].url }}</div>",
         "<div>{{ xs[1].value[3] }}</div>",
-        "<div>{{ title }}</div>"
+        "<div>test: {{ test }}</div>"
     })
     {
         startParser(content, output, dict);
@@ -86,10 +86,13 @@ void testIfElse(
 ){
     std::string output;
     for (std::string content : {
-        "{% if content.comments %} 1 {% endif %}",
-        "{% if content.comments is not empty %} 2 {% endif %}",
-        "{% if content.comments is defined %} 3 {% endif %}",
-        "{% if count > 0 %} 4 {% endif %}"
+        "{% if content.comments is defined %} 1 {% endif %}",
+        // "{% if content.comments %} comments1 {% elseif content.comments %} content.comments1 {% else %} else {% endif %}",
+        // "{% if content.comments %} 1 {% if content.comments %} 2 {% if content.comments %} <div>{{ title }}</div> {% endif %}{% endif %}{% endif %}",
+        // "{% if content.comments %} comments {% elseif content.comments1 %} {% if content.comments1 %} comments1 {% else %} ---------------- {% endif %} {% else %} else {% endif %}",
+        // "{% if content.comments is not empty %} 2 {% endif %}",
+        // "{% if content.comments is defined %} 3 {% endif %}",
+        // "{% if count > 0 %} 4 {% endif %}"
     }){
         startParser(content, output, dict);
     }
@@ -122,7 +125,11 @@ void listTest(){
     std::map<std::string, canto_temp::Dictionary> list_vars;
     list_vars["title"] = "Sample Site";
     list_vars["xs"] = xs;
-
+    std::map<std::string, bool> par;
+    par["comments"] = true;
+    par["comments1"] = true;
+    list_vars["content"] = par;
+    
     // testComment(list_vars);
     // testInsertVars(list_vars);
     // testFilterVars(list_vars);

@@ -18,6 +18,7 @@ namespace canto_temp{
             file_p_.close();
         };
         bool isEnd() override;
+        bool isNotEnd() override;
         char current() override;
         char next() override;
         int pos() override;
