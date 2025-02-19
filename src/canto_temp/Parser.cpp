@@ -18,6 +18,7 @@ canto_temp::Parser::Parser(
 void canto_temp::Parser::contentInit(
     ContentParser&& contentParser
 ){
+    if_exit_ = false;
     if(contentParser.is_content){
         container_ = std::make_shared<ContainerStr>(
             std::move(contentParser.getContent())
@@ -28,23 +29,23 @@ void canto_temp::Parser::contentInit(
         );
     }
     var_controller_ = std::make_shared<parser_logic::Variables>(
-        &obj_list_
+        &obj_list_, container_
     );
 }
 
 void canto_temp::Parser::assign(
-    std::map<std::string, Dictionary>& list
+    std::map<std::string, nlohmann::json>& list
 ){
     for (auto &&obj : list){
-        obj_list_.insert(std::pair<std::string, Dictionary>
+        obj_list_.insert(std::pair<std::string, nlohmann::json>
             (obj.first, obj.second));
     }
 }
 
 void canto_temp::Parser::assign(
-    std::string& key, std::map<std::string, Dictionary>& obj
+    std::string& key, std::map<std::string, nlohmann::json>& obj
 ){
-    obj_list_.insert(std::pair<std::string, Dictionary>(key, obj));
+    obj_list_.insert(std::pair<std::string, nlohmann::json>(key, obj));
 }
 
 bool canto_temp::Parser::breakLogic(
@@ -53,6 +54,10 @@ bool canto_temp::Parser::breakLogic(
     bool result = false;
     if("end" + tag_name == instruction_name){
         result = true;
+        if(tag_name == "if"){
+            if_exit_ = true;
+        }
+        parser_logic::skipTo('}', container_);
     }else if(
         tag_name == "if"
         && (
@@ -60,6 +65,7 @@ bool canto_temp::Parser::breakLogic(
             || instruction_name == "elseif"
         )
     ){
+        if_exit_ = false;
         result = true;
     }
     
@@ -73,51 +79,62 @@ void canto_temp::Parser::append(std::string str){
     output_->append(str);
 }
 
-void canto_temp::Parser::skipTo(char c){
-    while (container_->isNotEnd()){
-        container_->next();
-        if(container_->current() == c){
-            container_->next();
-            break;
-        }
-    }
-}
+
 
 void canto_temp::Parser::print(){
+    std::cout << std::endl 
+        << "-----------print BEGIN-----------" << std::endl;
     container_->print();
-    std::cout << *output_ << std::endl;
+    std::cout 
+        << "----------------------" << std::endl
+        << "output: "<< *output_ << std::endl
+        << "-----------print END-----------" 
+    << std::endl;
 }
 
+
 void canto_temp::Parser::render(
-    std::string input_instruction,
-    std::vector<std::string> read_before_instruction
+    std::string input_instruction
 ){
     bool not_skip_append = true;
     while (container_->isNotEnd()){
         try{
             char current = container_->current();
+            // ToDo Зацикливается файл
             if(current == '{' 
                 // || current == '%'
             ){
                 char next = container_->next();
                 if(next == '%'){
-                    container_->next();
-                    std::string tag = getParams('%');
-                    skipTo('}');
+                    
+                    parser_logic::skipTo(' ', container_);
+                    // container_->next();
+                    
                     std::string instruction_name = 
-                        eraseByNidle(tag, " ");
+                        parser_logic::getParams({' ', '%'}, container_
+                    );
+                    /*
+                        std::string tag = getParams('%');
+                        skipTo('}');
+                        
+                        std::string instruction_name = 
+                            eraseByNidle(tag, " ");
+                     */
+                    
                     if(input_instruction.empty()){
                         input_instruction = instruction_name;
                     }
                     not_skip_append = false;
+                    
                     if(breakLogic(
                         instruction_name, input_instruction
                     )){
+                        // parser_logic::skipTo('}', container_);
                         break;
                     }
-                    append(readInstruction(
-                        instruction_name, tag
-                    ));
+                    readInstruction(
+                        instruction_name
+                    );
                 }else if(next == '{' || next == '#'){
                     append(readTag(next));
                 }else{
@@ -145,14 +162,14 @@ void canto_temp::Parser::render(
 }
 
 void canto_temp::Parser::render(
-    std::map<std::string, Dictionary> list
+    std::map<std::string, nlohmann::json> list
 ){
     assign(list);
     render();
 }
 
 void canto_temp::Parser::addFilterFunctions(
-    std::string& func_name, std::function<void(Dictionary&)> f
+    std::string& func_name, std::function<void(nlohmann::json&)> f
 ){
     var_controller_->addFilterFunctions(func_name, f);
 }
@@ -161,28 +178,8 @@ void canto_temp::Parser::addFilterFunctions(
 
 /***************************** Private *****************************/
 
-std::string canto_temp::Parser::getParams(
-    // std::size_t end_tag_pos,
-    char end_params
-){
-    std::string tag{};
-    while (container_->isNotEnd()){
-        if(container_->current() == '{'){
-            //! IS throw Error
-            throw "Not valid signature";
-        }
-        if(container_->current() == '}' 
-            || container_->current() == end_params // '%'
-        ){
-            break;
-        }
-        tag.append(1, container_->current());
-        container_->next();
-    }
-    var_controller_->ltrim(tag);
-    var_controller_->rtrim(tag);
-    return tag;
-}
+
+
 
 std::string canto_temp::Parser::eraseByNidle(
     std::string& str, std::string nidle
@@ -196,26 +193,27 @@ std::string canto_temp::Parser::eraseByNidle(
     return first;
 }
 
-std::string canto_temp::Parser::readInstruction(
-    std::string instuction, std::string data
+void canto_temp::Parser::readInstruction(
+    std::string instruction//, std::string data
 ){
     std::string value{};
-    if(!instuction.empty()){
-        if(instuction == "if"){
-            value = ifInstruction(data);
-        }else if(instuction == "for"){
+    if(!instruction.empty()){
+        if(instruction == "if"){
+            ifInstruction();
+        }else if(instruction == "set"){
+            setInstruction();
+        }else if(instruction == "for"){
 
-        }else if(instuction == "foreach"){
+        }else if(instruction == "foreach"){
 
-        }else if(instuction == "extends"){
+        }else if(instruction == "extends"){
 
-        }else if(instuction == "block"){
+        }else if(instruction == "block"){
 
-        }else if(instuction == "include"){
+        }else if(instruction == "include"){
 
         }
     }
-    return value;
 }
 
 std::string canto_temp::Parser::readTag(
@@ -235,7 +233,9 @@ std::string canto_temp::Parser::readTag(
             break;
         }
         case '{':{// Print or set variables
-            std::string str = var_controller_->getVar(getParams('}'));
+            std::string str = var_controller_->getVar(
+                parser_logic::getParams('}', container_)
+            );
             container_->next();
             if(!str.empty()){
                 return str;
@@ -257,62 +257,68 @@ std::string canto_temp::Parser::readTag(
     return std::string();
 }
 
-std::string canto_temp::Parser::ifInstruction(std::string data){
+void canto_temp::Parser::ifInstruction(){
     std::string content{};
     int count_if = 0;
     bool skip = false;
-
-    if(data.find(" ") != std::string::npos){
-        std::string instruction = data;
-        data = eraseByNidle(instruction, " ");
-        if(data.find("is defined")){
-            
-        }else if(data.find("is not empty")){
-
-        }
-    }
-    
-    Dictionary value = var_controller_->getDicVar(data);
-
-    if(value){
+    if(var_controller_->getBoolDicVar(var_controller_->getDicVar())){
         render("if");
         skip = true;
     }
-    while (container_->isNotEnd()){
-        char current = container_->next();
-        if(current == '{' 
-            && container_->next() == '%'
-        ){
-            container_->next();
-            std::string tag = getParams('%');
-            skipTo('}');
-            if(tag.find("endif") != std::string::npos){
-                if(count_if == 0){
-                    break;
-                }else
-                    count_if--;
-            }else if(tag.find("elseif") != std::string::npos){
-                if(count_if == 0 && !skip){
-                    std::string instruction_name = 
-                        eraseByNidle(tag, " ");
-                    
-                    Dictionary v = var_controller_->getDicVar(tag);
-                    if(v){
-                        render("if");
-                        skip = true;
+    
+    if(!if_exit_){
+        while (container_->isNotEnd()){
+            char current = container_->next();
+            if(current == '{' 
+                && container_->next() == '%'
+            ){
+                container_->next();
+                std::string tag = parser_logic::getParams(
+                    '%', container_
+                );
+                parser_logic::skipTo('%', container_);
+                if(tag.find("endif") != std::string::npos){
+                    if(count_if == 0){
+                        break;
+                    }else
+                        count_if--;
+                }else if(tag.find("elseif") != std::string::npos){
+                    if(count_if == 0 && !skip){
+                        std::string instruction_name = 
+                            eraseByNidle(tag, " ");
+                        parser_logic::skipTo(' ', container_);
+
+                        if(var_controller_->getBoolDicVar(
+                            var_controller_->getDicVar(tag)
+                        )){
+                            render("if");
+                            skip = true;
+                        }
                     }
+                }else if(tag.find("else") != std::string::npos){
+                    if(count_if == 0 && !skip){
+                        if(container_->current() == '}'){
+                            container_->next();
+                        }
+                        render("if");
+                        // skip = true;
+                        break;
+                    }
+                }else if(tag.find("if") != std::string::npos){
+                    count_if ++;
                 }
-            }else if(tag.find("else") != std::string::npos){
-                if(count_if == 0 && !skip){
-                    render("if");
-                    skip = true;
-                }
-            }else if(tag.find("if") != std::string::npos){
-                count_if ++;
             }
         }
+        if(container_->current() == '}'){
+            container_->next();
+        }
+        
     }
-    return content;
+    if_exit_ = false;
+}
+
+void canto_temp::Parser::setInstruction(){
+    print();
 }
 
 /***************************** END Private *****************************/

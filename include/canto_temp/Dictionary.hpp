@@ -13,6 +13,7 @@ namespace canto_temp{
         virtual ~ParentValue() {}
         virtual std::string toString() const = 0;
         virtual bool get() const = 0;
+        virtual bool empty() = 0;
         virtual Dictionary get(std::string name) = 0;
         virtual Dictionary get(int iter) = 0;
     };
@@ -22,6 +23,32 @@ namespace canto_temp{
         T obj;
         Value(T obj) : obj(std::move(obj)) { }
         ~Value(){};
+
+        // template<class U,
+        //     typename = typename std::enable_if<std::is_arithmetic<U>::value, U>::type
+        // >
+        // bool empty_() {
+        //     return obj > 0;
+        // }
+
+        // template<class U>
+        // bool empty_(...) {
+        //     return std::empty(obj);
+        // }
+
+        template<class U>
+        bool empty_(...) {
+            throw std::string(
+                "\nWarning to Line: "
+                    + std::to_string(__LINE__) 
+                    + " This value does not have operator[]()\n"
+            );
+        }
+
+        bool empty() override {
+            return empty_<T>();
+        }
+        
 
         template<
             class U, 
@@ -157,6 +184,10 @@ public:
 
     Dictionary operator[](int iter) {
         return value_->get(iter); 
+    }
+
+    bool empty() {
+        return value_->empty();
     }
 };
 }

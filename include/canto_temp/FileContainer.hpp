@@ -14,7 +14,6 @@ namespace canto_temp{
     public:
         FileContainer(std::string_view file_name);
         ~FileContainer(){
-            std::cout << "~FileContainer" << std::endl;
             file_p_.close();
         };
         bool isEnd() override;
@@ -28,7 +27,7 @@ namespace canto_temp{
 
         std::streamoff getPos(){return file_p_.tellg();};
 
-        void print() override {std::cout<< "begin_" << std::endl;};
+        void print() override;
     };
 }
 

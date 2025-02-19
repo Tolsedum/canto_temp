@@ -4,7 +4,7 @@
 #include "canto_temp/ContainerStr.hpp"
 #include "canto_temp/FileContainer.hpp"
 #include "canto_temp/parser_logic/Variables.hpp"
-#include "canto_temp/Dictionary.hpp"
+// #include "canto_temp/Dictionary.hpp"
 
 namespace canto_temp{
     struct ContentParser{
@@ -39,18 +39,17 @@ namespace canto_temp{
         std::string content_;
     };
     class Parser{
+        bool if_exit_;
         std::string* output_;
         std::shared_ptr<Container> container_;
         std::shared_ptr<parser_logic::Variables> var_controller_;
         // std::shared_ptr<parser_logic::Instructions> instructions_controller_;
         // std::shared_ptr<parser_logic::Reader> reader_;
 
-        std::map<std::string, Dictionary> obj_list_;
+        std::map<std::string, nlohmann::json> obj_list_;
         
         void append(char c);
         void append(std::string str);
-
-        void skipTo(char c);
 
         void print();
 
@@ -62,8 +61,8 @@ namespace canto_temp{
          * @brief Get instruction ( {%instruction%} )
          * @return String result
          */
-        std::string readInstruction(
-            std::string instuction, std::string data
+        void readInstruction(
+            std::string instuction//, std::string data
         );
         /**
          * @brief Start read tag (readVar or readInstruction)
@@ -72,15 +71,6 @@ namespace canto_temp{
          */
         std::string readTag(char tag);
 
-        /**
-         * @brief Get params from tag
-         * @param end_tag_pos 
-         * @param end_params 
-         * @return tag params
-         */
-        std::string getParams(
-            char end_params
-        );
         std::string readInstructionContent(
             std::string instruction_name, std::string tag
         );
@@ -92,12 +82,9 @@ namespace canto_temp{
         );
 
         /********************* Instructions *********************/
-        std::string ifInstruction(std::string value);
-        std::string forInstruction(Dictionary value);
-        std::string foreachInstruction(Dictionary value);
-        std::string extendsInstruction(Dictionary value);
-        std::string blockInstruction(Dictionary value);
-        std::string includeInstruction(Dictionary value);
+        void ifInstruction();
+        void setInstruction();
+
         /********************* END Instructions *********************/
     public:
         Parser(
@@ -110,19 +97,18 @@ namespace canto_temp{
         );
         ~Parser(){};
 
-        void assign(std::map<std::string, Dictionary>&);
-        void assign(std::string&, std::map<std::string, Dictionary>&);
+        void assign(std::map<std::string, nlohmann::json>&);
+        void assign(std::string&, std::map<std::string, nlohmann::json>&);
 
         void render(
-            std::string tag_name = "",
-            std::vector<std::string> read_before_instruction = {}
+            std::string tag_name = ""
         );
         void render(
-            std::map<std::string, Dictionary> data
+            std::map<std::string, nlohmann::json> data
         );
 
         void addFilterFunctions(
-            std::string& func_name, std::function<void(Dictionary&)>
+            std::string& func_name, std::function<void(nlohmann::json&)>
         );
     };
 };

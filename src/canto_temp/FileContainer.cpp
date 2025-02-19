@@ -39,35 +39,63 @@ char canto_temp::FileContainer::next(){
 }
 
 int canto_temp::FileContainer::pos(){
-    return (int)file_p_.tellg()-2;
+    return (int)file_p_.tellg()-1;
 }
 
 void canto_temp::FileContainer::setPos(int new_pos){
-    file_p_.seekg(new_pos, std::ios_base::beg);
-    file_p_.get(current_);
-    file_p_.get(next_);
+    if(file_size_ >= new_pos){
+        file_p_.clear();
+        file_p_.seekg(new_pos, std::ios::beg);
+        file_p_.get(current_);
+        file_p_.get(next_);
+    }
+}
+
+void canto_temp::FileContainer::print(){
+    int current_pos = pos()-1;
+    std::string tmp;
+    bool first = true;
+    while (std::getline(file_p_, tmp)){
+        if(first){
+            first = false;
+            std::cout<< current_ << next_ << tmp << std::endl;
+        }else{
+            std::cout<< tmp << std::endl;
+        }
+        
+    }
+    file_p_.clear();
+    file_p_.seekg(current_pos, std::ios::beg);
+    next_read_ = false;
+    next();
 }
 
 std::size_t canto_temp::FileContainer::find(
-    std::string_view str, std::size_t p
+    std::string_view str, std::size_t start_pos
 ){
     std::size_t pos_line = std::string::npos;
-    if(p <= file_size_){
+    if(start_pos <= file_size_){
         int pos_t = pos();
-        file_p_.seekg(p, std::ios_base::beg);
+        if(start_pos > 1) --start_pos;
+        file_p_.seekg(start_pos, std::ios::beg);
         if(!isEnd()){
             std::string tmp;
             while (std::getline(file_p_, tmp)){
                 std::size_t p = tmp.find(str);
                 if(p != std::string::npos){
-                    pos_line = p;
+                    std::size_t test_size = tmp.size() - p;
+                    int pos_print = pos();
+                    if(pos_print < 0){
+                        pos_print = file_size_;
+                    }
+                    pos_line = pos_print - test_size;
                     break;
                 }
                 tmp.clear();
             }
         }
         file_p_.clear();
-        file_p_.seekg(pos_t, std::ios_base::beg);
+        file_p_.seekg(pos_t, std::ios::beg);
     }
     return pos_line;
 }
@@ -78,7 +106,8 @@ std::size_t canto_temp::FileContainer::find(
     std::size_t pos_line = std::string::npos;
     if(p <= file_size_){
         std::streampos pos_t = pos();
-        file_p_.seekg(p, std::ios_base::beg);
+        if(p > 1) p = p - 1;
+        file_p_.seekg(p, std::ios::beg);
         if(!isEnd()){
             next();
             while (!isEnd()){
@@ -95,7 +124,7 @@ std::size_t canto_temp::FileContainer::find(
             }
         }
         file_p_.clear();
-        file_p_.seekg(pos_t, std::ios_base::beg);
+        file_p_.seekg(pos_t, std::ios::beg);
     }
     return pos_line;
 }

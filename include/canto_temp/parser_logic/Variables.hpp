@@ -1,60 +1,56 @@
 #ifndef VARIABLES_HPP
 #define VARIABLES_HPP
 
-#include <map>
-#include <algorithm>
-#include <cctype>
-#include <locale>
+#include "canto_temp/parser_logic/tools.hpp"
 #include "canto_temp/Dictionary.hpp"
-#include "canto_temp/Container.hpp"
 
 namespace canto_temp{
 namespace parser_logic{
 
     class Variables{
-        std::map<std::string, std::function<void(Dictionary&)>> 
-            func_;
-        std::map<std::string, Dictionary>* obj_list_;
-
         int count_read_tag;
-        // std::weak_ptr<Container> container_;
+
+        std::map<std::string, std::function<void(nlohmann::json&)>> 
+            func_;
+        std::map<std::string, nlohmann::json>* obj_list_;
+        std::shared_ptr<Container> container_;
 
         // std::string eraseByNidle(std::string& str, char nidle);
         // std::string getVar(std::string tag);
-        // Dictionary readVar();
+        // nlohmann::json readVar();
     
+        // std::string get
         
     public:
         Variables(
-            std::map<std::string, Dictionary> *obj_list
-        )
-            : obj_list_(obj_list)
-            // , container_(container)
-        {
-            count_read_tag = 0;
-            addFilterFunctions("upper", [](Dictionary& dict){
-                std::string str = dict.toString();
-                std::transform(
-                    str.begin(), 
-                    str.end(), 
-                    str.begin(), 
-                    ::toupper
-                );
-                dict = str;
-            });
-        };
+            std::map<std::string, nlohmann::json> *obj_list,
+            std::shared_ptr<Container> container
+        );
         ~Variables(){};
 
         void addFilterFunctions(
-            std::string func_name, std::function<void(Dictionary&)>
+            std::string func_name, std::function<void(nlohmann::json&)>
         );
         // std::string render(std::size_t end_tag_pos);
-        Dictionary getDicVar(std::string tag);
-        std::string getVar(std::string str_var);
-        // ToDo Создать получение Dict
+        nlohmann::json getDicVar(
+            std::string tag
+        );
+        std::string getVar(
+            std::string str_var
+        );
 
-        void ltrim(std::string &s);
-        void rtrim(std::string &s);
+        bool getBoolDicVar(nlohmann::json dic);
+        bool isSetDicVar(nlohmann::json &dic);
+        bool isEmptyDicVar(nlohmann::json &dic);
+        bool compare(
+            nlohmann::json dic, nlohmann::json dic1, char comp
+        );
+
+        nlohmann::json getDicVar();
+        std::string getVar();
+
+        void setVar(std::string var_name, nlohmann::json new_var);
+
     };
 
 } // parser_logic

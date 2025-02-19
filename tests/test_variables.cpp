@@ -5,12 +5,20 @@
 
 
 void startParser(
-    std::string& content, 
+    std::string& file_name, 
     std::string& output,
-    std::map<std::string, canto_temp::Dictionary>& dict
+    std::map<std::string, nlohmann::json>& dict
 ){
     canto_temp::ContentParser contentParser;
-    contentParser.setContent(content);
+    
+    // std::ifstream ifile(file_name);
+    // std::string inp, tmp;
+    // while (std::getline(ifile, tmp)){
+    //     inp.append(tmp);
+    //     inp.append(1, '\n');
+    // }
+    // contentParser.setContent(inp);
+    contentParser.setFileName(file_name);
 
     canto_temp::Parser parser(
         std::move(output), 
@@ -21,91 +29,8 @@ void startParser(
     output.append(1, '\n');
 }
 
-void testComment(
-    std::map<std::string, canto_temp::Dictionary>& dict
-){
-    std::string output;
-    for (std::string content : {
-        "{#\n Test \n#}<div>{{ xs[0].url }}</div>{#\n Test \n#}",
-        "{#\n Test \n#}<div>{{ xs[1].url }}</div>{#\n Test \n#}",
-        "{#\n Test \n#}<div>{{ xs[2].url }}</div>{#\n Test \n#}",
-        "<div>{#\n {{ xs[2].url }} \n#}</div>",
-        "<span>{#\n Very big comment string --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- \n#}</span>",
-    })
-    {
-        startParser(content, output, dict);
-    }
-    std::cout 
-        <<"Test comments: \n" <<  output 
-        << "------------------------------------------------------\n"
-    << std::endl;
-    output.clear();
-}
-
-void testInsertVars(
-    std::map<std::string, canto_temp::Dictionary>& dict
-){
-    std::string output;
-    for (std::string content : {
-        "<div>{{ title }}</div>",
-        "<div>{{ xs[0].url }}</div>",
-        "<div>{{ xs[1].value[3] }}</div>",
-        "<div>test: {{ test }}</div>"
-    })
-    {
-        startParser(content, output, dict);
-    }
-    std::cout 
-        <<"Test inserting variables: \n" <<  output 
-        << "------------------------------------------------------\n"
-    << std::endl;
-    output.clear();
-}
-
-void testFilterVars(
-    std::map<std::string, canto_temp::Dictionary>& dict
-){
-    std::string output;
-    for (std::string content : {
-        "<div>{{ xs[0].url|upper }}</div>",
-        "<div>{{ xs[1].value[3] | upper }}</div>",
-        "<div>{{ title  | upper }}</div>",
-        "<div>{{ title  | upperf }}</div>"
-    }){
-        startParser(content, output, dict);
-    }
-    std::cout 
-        <<"Test filters variables: \n" <<  output 
-        << "------------------------------------------------------\n"
-    << std::endl;
-    output.clear();
-}
-
-void testIfElse(
-    std::map<std::string, canto_temp::Dictionary>& dict
-){
-    std::string output;
-    for (std::string content : {
-        "{% if content.comments is defined %} 1 {% endif %}",
-        // "{% if content.comments %} comments1 {% elseif content.comments %} content.comments1 {% else %} else {% endif %}",
-        // "{% if content.comments %} 1 {% if content.comments %} 2 {% if content.comments %} <div>{{ title }}</div> {% endif %}{% endif %}{% endif %}",
-        // "{% if content.comments %} comments {% elseif content.comments1 %} {% if content.comments1 %} comments1 {% else %} ---------------- {% endif %} {% else %} else {% endif %}",
-        // "{% if content.comments is not empty %} 2 {% endif %}",
-        // "{% if content.comments is defined %} 3 {% endif %}",
-        // "{% if count > 0 %} 4 {% endif %}"
-    }){
-        startParser(content, output, dict);
-    }
-    std::cout 
-        <<"Test if else: \n" <<  output 
-        << "------------------------------------------------------\n"
-    << std::endl;
-    output.clear();
-}
-
-
 void listTest(){
-    std::vector<std::map<std::string, canto_temp::Dictionary>> xs;
+    std::vector<std::map<std::string, nlohmann::json>> xs;
     xs.push_back({
         { "enable", true },
         { "url", "http://example.com" },
@@ -122,16 +47,28 @@ void listTest(){
         { "value", "Google" },
     });
 
-    std::map<std::string, canto_temp::Dictionary> list_vars;
+    std::map<std::string, nlohmann::json> list_vars;
     list_vars["title"] = "Sample Site";
     list_vars["xs"] = xs;
-    std::map<std::string, bool> par;
-    par["comments"] = true;
-    par["comments1"] = true;
+    std::map<std::string, nlohmann::json> par;
+    par["comments"] = "string";
+    par["comments1"] = "d";
     list_vars["content"] = par;
+    list_vars["count"] = 1;
     
-    // testComment(list_vars);
-    // testInsertVars(list_vars);
-    // testFilterVars(list_vars);
-    testIfElse(list_vars);
+    for (std::string file_name : {
+        // "tests/test_comments.html",
+        // "tests/test_getting_var.html",
+        // "tests/test_filter_var.html",
+        // "tests/test_if_else.html"
+        "tests/test_set_instruction.html"
+    }){
+        std::string output;
+        startParser(file_name, output, list_vars);
+        std::cout 
+            <<"Test " + file_name + ": \n" <<  output 
+            << "------------------------------------------------------\n"
+        << std::endl;
+        output.clear();
+    }
 }
