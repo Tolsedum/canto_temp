@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<div class="1">{% if content.comments1 is not empty %} "Div number 1" {% endif %}</div>
+<div class="2">{% if content.comments is defined %} "Div number 2" {% endif %}</div>
+<div class="3">{% if content.comments is not empty %} "Div number 3 first" {% elseif content.comments %} "Div number 3 second" {% else %} "Div number 1 last" {% endif %}</div>
+<div class="4">{% if content.comments %} "Div number 4 first" {% if content.comments %} "Div number 4 inside" {% if content.comments %} <div>"Div number 4 {{ title }}"</div> {% endif %}{% endif %}{% endif %}</div>
+<div class="5">{% if content.comments %} "Div number 5 first" {% elseif content.comments1 %} {% if content.comments1 %} "Div number 5 second" {% else %} ---------------- {% endif %} {% else %} "Div number 5 last" {% endif %}</div>
+<div class="6">{% if content.comments is not empty %} "Div number 6" {% else %} "Div number 6 second" {% endif %}</div>
+<div class="7">{% if content.comments %} "Div number 7" {% endif %}</div>
+<div class="8">
+    {% if not user.subscribed %}
+        <p>You are not subscribed to our mailing list.</p>
+    {% else %}
+        <p>You are subscribed is empty</p>
+    {% endif %}
+</div>
+<div class="9">
+    {% if online == false %}
+        <p>Our website is in maintenance mode. Please, come back later.</p>
+    {% endif %}
+    {% if online == true %}
+        <p>Our website is in maintenance mode. Please, come back later.</p>
+    {% endif %}
+    {% if xs[1].enable == true %}
+        <p>enable == true</p>
+    {% endif %}
+    {% if xs[1].enable == false %}
+        <p>enable == false</p>
+    {% endif %}
+    {% if xs[1].enable != true %}
+        <p>enable != false</p>
+    {% endif %}
+    {% if xs[1].enable != false %}
+        <p>enable != false</p>
+    {% endif %}
+</div>
+<div class="10">
+    {% if content.comments == content.comments1 %}
+        <p>Our website is in maintenance mode. Please, come back later.</p>
+    {% endif %}
+</div>
+{# Доделать
+    <div class="10">{% if count > 0 %} "count > 0" {% endif %}</div>
+    <div class="11">{% if fn_name() %} "fn_name" {% endif %}</div>
+    <div class="12">{% if fn_name() < fn_name_2() %} "fn_name_2" {% endif %}</div>
+    <div class="13">{% if fn_name_params(content.comments) %} "fn_name_params" {% endif %}</div>
+    <div class="14">{% if fn_name_params(content.comments) != fn_name_params_2() %} "fn_name_params_2" {% endif %}</div>
+    <div class="15">{% if fn_name_params(content.comments) != "string" %} "fn_name_params_str" {% endif %}</div>
+    
+    <div class="16">
+        {% if 'Fabien' starts with 'F' %}
+        {% endif %}
+    
+        {% if 'Fabien' ends with 'n' %}
+        {% endif %}
+    </div>
+#}
