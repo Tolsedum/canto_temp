@@ -17,23 +17,23 @@ void canto_temp::parser_logic::rtrim(std::string &s) {
 
 std::string canto_temp::parser_logic::getParams(
     std::vector<char> end_params,
-    std::shared_ptr<Container> container
+    ContentReader &container
 ){
     std::string tag{};
-    while (container->isNotEnd()){
-        if(container->current() == '{'){
+    while (container.isNotEnd()){
+        if(container.current() == '{'){
             //! IS throw Error
             throw "Not valid signature";
         }
         for (auto &&i : end_params){
-            if(container->current() == '}' 
-                || container->current() == i
+            if(container.current() == '}' 
+                || container.current() == i
             ){
                 goto exit_to;
             }
         }
-        tag.append(1, container->current());
-        container->next();
+        tag.append(1, container.current());
+        container.next();
     }
 exit_to:
     ltrim(tag);
@@ -44,21 +44,21 @@ exit_to:
 std::string canto_temp::parser_logic::getParams(
     // std::size_t end_tag_pos,
     char end_params,
-    std::shared_ptr<Container> container
+    ContentReader &container
 ){
     std::string tag{};
-    while (container->isNotEnd()){
-        if(container->current() == '{'){
+    while (container.isNotEnd()){
+        if(container.current() == '{'){
             //! IS throw Error
             throw "Not valid signature";
         }
-        if(container->current() == '}' 
-            || container->current() == end_params // '%'
+        if(container.current() == '}' 
+            || container.current() == end_params // '%'
         ){
             break;
         }
-        tag.append(1, container->current());
-        container->next();
+        tag.append(1, container.current());
+        container.next();
     }
     ltrim(tag);
     rtrim(tag);
@@ -87,13 +87,13 @@ bool canto_temp::parser_logic::isNumeric(
 
 void canto_temp::parser_logic::skipTo(
     char c,
-    std::shared_ptr<Container> container
+    ContentReader &container
 ){
-    while (container->isNotEnd()){
-        if(container->current() == c){
-            container->next();
+    while (container.isNotEnd()){
+        if(container.current() == c){
+            container.next();
             break;
         }
-        container->next();
+        container.next();
     }
 }

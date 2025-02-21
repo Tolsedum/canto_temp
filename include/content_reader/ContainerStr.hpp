@@ -1,9 +1,9 @@
 #ifndef CONTAINER_STR_HPP
 #define CONTAINER_STR_HPP
 
-#include "canto_temp/Container.hpp"
+#include "content_reader/Container.hpp"
 
-namespace canto_temp{
+namespace content_reader{
     class ContainerStr : public Container{
         std::string_view container_;
         std::string_view::const_iterator begin_;

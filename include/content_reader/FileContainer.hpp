@@ -3,9 +3,9 @@
 
 #include <fstream>
 #include <filesystem>
-#include "canto_temp/Container.hpp"
+#include "content_reader/Container.hpp"
 
-namespace canto_temp{
+namespace content_reader{
     class FileContainer : public Container{
         bool next_read_;
         std::ifstream file_p_;

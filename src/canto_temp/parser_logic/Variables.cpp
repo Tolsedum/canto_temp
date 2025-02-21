@@ -2,7 +2,7 @@
 
 canto_temp::parser_logic::Variables::Variables(
     std::map<std::string, nlohmann::json> *obj_list,
-    std::shared_ptr<Container> container
+    ContentReader &container
 )
     : obj_list_(obj_list)
     , container_(container)
@@ -34,65 +34,327 @@ void canto_temp::parser_logic::Variables::addFilterFunctions(
     }
 }
 
+nlohmann::json canto_temp::parser_logic::Variables::getDicVarTest(
+    std::string var
+){
+    bool get_from_str = !var.empty();
+    if(get_from_str){
+        if(var == "true"){
+            return true;
+        }else if(var == "false"){
+            return false;
+        }else {
+            var.append("%}");
+        }
+    }
+    int iter = 0;
+    auto fn = [](
+        ContentReader &container_, std::string var = "", int &iter
+    ){
+        char ret_char = '\n';
+        if(var.empty()){
+            ret_char = container_.next();
+        }else{
+            if((int)var.size() >= iter){
+                ret_char = var[iter];
+            }
+            iter++;
+        }
+        return ret_char;
+    };
+    std::string name_var{};
+    nlohmann::json obj = (*obj_list_);
+    char pre = '\n';
+    while (container_.isNotEnd()){
+        count_read_tag++;
+        char c = fn(container_, var, iter);
+        
+        if(c == '|'){
+            break;
+        }else if(pre == '%' && c == '}'){
+            break;
+        }else if(c == '%'){
+            char next = fn(container_, var, iter);
+            if(next == '}'){
+                if(!get_from_str){
+                    parser_logic::skipTo('}', container_);
+                }
+                break;
+            }
+            // ToDo
+        }else if(c == ' '){
+            char next = fn(container_, var, iter);
+            if(next == '%'){
+                char next_next = fn(container_, var, iter);
+                if(next_next == '}'){
+                    parser_logic::skipTo('}', container_);
+                    break;
+                }
+                // ToDo
+            }else if((next == '!' || next == '=') 
+                && !name_var.empty()
+            ){
+
+                char next_next = fn(container_, var, iter);
+                if(next_next == '='){
+                    fn(container_, var, iter);
+                    std::string var_name = 
+                        parser_logic::getParams('%', container_);
+                    parser_logic::skipTo('}', container_);
+                    if(var_name == "true"){
+                        obj = !isEmptyDicVar(obj[name_var]);
+                    }else if(var_name == "false"){
+                        obj = isEmptyDicVar(obj[name_var]);
+                    }else {
+                        obj = compare(
+                            obj[name_var], getDicVar(var_name), next
+                        );
+                    }
+                    name_var.clear();
+                    break;
+                }else{
+                    // ToDo
+                }
+            }else if(name_var == "not"){
+                std::string var_name = 
+                    parser_logic::getParams('%', container_);
+                parser_logic::skipTo('}', container_);
+                obj = getDicVar(var_name);
+                obj = !isEmptyDicVar(obj);
+                name_var.clear();
+                break;
+            }else{
+                std::string word = 
+                    parser_logic::getParams(' ', container_);
+                if(word == "is"){
+                    std::string is_function = 
+                        next + parser_logic::getParams('%', container_);
+                    parser_logic::skipTo('}', container_);
+
+                    if(is_function == "is defined"){
+                        obj = !obj[name_var].is_null();
+                    }else if(is_function == "is not empty"){
+                        obj = !isEmptyDicVar(obj[name_var]);
+                    }
+                    name_var.clear();
+                    break;
+                }else{
+                    if(!name_var.empty()){
+                        obj = obj[name_var];
+                    }
+                    obj = getDicVar(word);
+                    name_var.clear();
+                }
+            }
+        }else if(
+            (c == '.' || c == '[' || c == ']')
+        ){
+            if(c == ']' && (pre != '\'' && pre != '"')){
+                // ToDo try catch Может быть переменная
+                int iter = std::atoi(name_var.c_str());
+                obj = obj[iter];
+            }else if(!name_var.empty()){
+                obj = obj[name_var];
+            }
+            name_var.clear();
+        }else if(c == '>' || c == '<' || c == '='){
+            if(isNumeric(name_var)){
+                float var = std::atof(name_var.c_str());
+                if(c == '>'){
+                    obj = obj > var;
+                }else if(c == '<'){
+                    obj = obj < var;
+                }else if(c == '='){
+                    obj = obj == var;
+                }
+            }else{
+                obj = obj[name_var];
+            }
+        }else if(c != ' ' && c != '"' && c != '\''){
+            name_var.append(1, c);
+        }
+        pre = c;
+    }
+    
+    if(!name_var.empty()){
+        obj = obj[name_var];
+    }
+    if(count_read_tag > 0){
+        count_read_tag++;
+    }
+    return obj;
+    
+}
+
 nlohmann::json canto_temp::parser_logic::Variables::getDicVar(
     std::string tag
 ){
+    char pre = '\n';
+    std::string name_var{};
+    nlohmann::json obj = (*obj_list_);
+
     rtrim(tag);
     ltrim(tag);
-
-    nlohmann::json obj = (*obj_list_);
-    // ToDo Перенести в цикл
-    // if(tag.find('.') != std::string::npos 
-    //     || tag.find('[') != std::string::npos 
-    //     || tag.find('|') != std::string::npos 
-    //     || tag.find('>') != std::string::npos 
-    //     || tag.find('<') != std::string::npos 
-    //     || tag.find('=') != std::string::npos 
-    // ){
-        std::string name_var{};
-        char pre;
-        for (std::size_t i = 0; i < tag.size(); i++){
-            count_read_tag = i;
-            if(tag[i] == '|'){
-                break;
-            }else if(
-                (tag[i] == '.' || tag[i] == '[' || tag[i] == ']')
-            ){
-                if(tag[i] == ']' && (pre != '\'' && pre != '"')){
-                    // ToDo try catch Может быть переменная
-                    int iter = std::atoi(name_var.c_str());
-                    obj = obj[iter];
-                }else if(!name_var.empty()){
-                    obj = obj[name_var];
-                }
-                name_var.clear();
-            }else if(tag[i] == '>' || tag[i] == '<' || tag[i] == '='){
-                if(isNumeric(name_var)){
-                    // ToDo Доделать
-                }else{
-                    obj = obj[name_var];
-                }
-                
-                // if()
-                // std::cout<< name_var << std::endl;
-            }else if(tag[i] != ' ' && tag[i] != '"' && tag[i] != '\''){
-                name_var.append(1, tag[i]);
+    for (std::size_t i = 0; i < tag.size(); i++){
+        count_read_tag = i;
+        if(tag[i] == '|'){
+            break;
+        }else if(
+            (tag[i] == '.' || tag[i] == '[' || tag[i] == ']')
+        ){
+            if(tag[i] == ']' && (pre != '\'' && pre != '"')){
+                // ToDo try catch Может быть переменная
+                int iter = std::atoi(name_var.c_str());
+                obj = obj[iter];
+            }else if(!name_var.empty()){
+                obj = obj[name_var];
             }
-            pre = tag[i];
+            name_var.clear();
+        }else if(tag[i] == '>' || tag[i] == '<' || tag[i] == '='){
+            if(isNumeric(name_var)){
+                // ToDo Доделать
+            }else{
+                obj = obj[name_var];
+            }
+            
+        }else if(tag[i] != ' ' && tag[i] != '"' && tag[i] != '\''){
+            name_var.append(1, tag[i]);
         }
-        
-        if(!name_var.empty()){
-            obj = obj[name_var];
-        }
-        if(count_read_tag > 0){
-            count_read_tag++;
-        }
-    // }else{
-    //     return (*obj_list_)[tag];
-    // }
+        pre = tag[i];
+    }
+
+    if(!name_var.empty()){
+        obj = obj[name_var];
+    }
+    
+    
+    
+    if(count_read_tag > 0){
+        count_read_tag++;
+    }
     return obj;
 }
 
+nlohmann::json canto_temp::parser_logic::Variables::getDicVar(){
+    std::string name_var{};
+    nlohmann::json obj = (*obj_list_);
+    char pre = '\n';
+    while (container_.isNotEnd()){
+        count_read_tag++;
+        char c = container_.next();
+        
+        if(c == '|'){
+            break;
+        }else if(pre == '%' && c == '}'){
+            break;
+        }else if(c == '%'){
+            char next = container_.next();
+            if(next == '}'){
+                parser_logic::skipTo('}', container_);
+                break;
+            }
+            // ToDo
+        }else if(c == ' '){
+            char next = container_.next();
+            if(next == '%'){
+                char next_next = container_.next();
+                if(next_next == '}'){
+                    parser_logic::skipTo('}', container_);
+                    break;
+                }
+                // ToDo
+            }else if((next == '!' || next == '=') 
+                && !name_var.empty()
+            ){
+                char next_next = container_.next();
+                if(next_next == '='){
+                    container_.next();
+                    std::string var_name = 
+                        parser_logic::getParams('%', container_);
+                    parser_logic::skipTo('}', container_);
+                    if(var_name == "true"){
+                        obj = !isEmptyDicVar(obj[name_var]);
+                    }else if(var_name == "false"){
+                        obj = isEmptyDicVar(obj[name_var]);
+                    }else {
+                        obj = compare(
+                            obj[name_var], getDicVar(var_name), next
+                        );
+                    }
+                    name_var.clear();
+                    break;
+                }else{
+                    // ToDo
+                }
+            }else if(name_var == "not"){
+                std::string var_name = 
+                    parser_logic::getParams('%', container_);
+                parser_logic::skipTo('}', container_);
+                obj = getDicVar(var_name);
+                obj = !isEmptyDicVar(obj);
+                name_var.clear();
+                break;
+            }else{
+                std::string word = 
+                    parser_logic::getParams(' ', container_);
+                if(word == "is"){
+                    std::string is_function = 
+                        next + parser_logic::getParams('%', container_);
+                    parser_logic::skipTo('}', container_);
+
+                    if(is_function == "is defined"){
+                        obj = !obj[name_var].is_null();
+                    }else if(is_function == "is not empty"){
+                        obj = !isEmptyDicVar(obj[name_var]);
+                    }
+                    name_var.clear();
+                    break;
+                }else{
+                    if(!name_var.empty()){
+                        obj = obj[name_var];
+                    }
+                    obj = getDicVar(word);
+                    name_var.clear();
+                }
+            }
+        }else if(
+            (c == '.' || c == '[' || c == ']')
+        ){
+            if(c == ']' && (pre != '\'' && pre != '"')){
+                // ToDo try catch Может быть переменная
+                int iter = std::atoi(name_var.c_str());
+                obj = obj[iter];
+            }else if(!name_var.empty()){
+                obj = obj[name_var];
+            }
+            name_var.clear();
+        }else if(c == '>' || c == '<' || c == '='){
+            if(isNumeric(name_var)){
+                float var = std::atof(name_var.c_str());
+                if(c == '>'){
+                    obj = obj > var;
+                }else if(c == '<'){
+                    obj = obj < var;
+                }else if(c == '='){
+                    obj = obj == var;
+                }
+            }else{
+                obj = obj[name_var];
+            }
+        }else if(c != ' ' && c != '"' && c != '\''){
+            name_var.append(1, c);
+        }
+        pre = c;
+    }
+    
+    if(!name_var.empty()){
+        obj = obj[name_var];
+    }
+    if(count_read_tag > 0){
+        count_read_tag++;
+    }
+    return obj;
+}
 std::string canto_temp::parser_logic::Variables::getVar(
     std::string tag
 ){
@@ -162,138 +424,7 @@ bool canto_temp::parser_logic::Variables::compare(
     return false;
 }
 
-nlohmann::json canto_temp::parser_logic::Variables::getDicVar(){
-    std::string name_var{};
-    nlohmann::json obj = (*obj_list_);
-    char pre = '\n';
-    while (container_->isNotEnd()){
-        count_read_tag++;
-        char c = container_->next();
-        
-        if(c == '|'){
-            break;
-        }else if(pre == '%' && c == '}'){
-            break;
-        }else if(c == '%'){
-            char next = container_->next();
-            if(next == '}'){
-                parser_logic::skipTo('}', container_);
-                break;
-            }
-            // ToDo
-        }else if(c == ' '){
-            char next = container_->next();
-            if(next == '%'){
-                char next_next = container_->next();
-                if(next_next == '}'){
-                    parser_logic::skipTo('}', container_);
-                    break;
-                }
-                // ToDo
-            }else if((next == '!' || next == '=') 
-                && !name_var.empty()
-            ){
-                char next_next = container_->next();
-                if(next_next == '='){
-                    container_->next();
-                    std::string var_name = 
-                        parser_logic::getParams('%', container_);
-                    parser_logic::skipTo('}', container_);
-                    if(var_name == "true"){
-                        obj = !isEmptyDicVar(obj[name_var]);
-                    }else if(var_name == "false"){
-                        obj = isEmptyDicVar(obj[name_var]);
-                    }else {
-                        obj = compare(
-                            obj[name_var], getDicVar(var_name), next
-                        );
-                    }
-                    name_var.clear();
-                    break;
-                }else{
-                    // ToDo
-                }
-            }else if(name_var == "not"){
-                std::string var_name = 
-                    parser_logic::getParams('%', container_);
-                parser_logic::skipTo('}', container_);
-                obj = getDicVar(var_name);
-                obj = !isEmptyDicVar(obj);
-                name_var.clear();
-                break;
-            }else{
-                std::string word = 
-                    parser_logic::getParams(' ', container_);
-                if(word == "is"){
-                    std::string is_function = 
-                        next + parser_logic::getParams('%', container_);
-                    parser_logic::skipTo('}', container_);
 
-                    if(is_function == "is defined"){
-                        obj = !obj[name_var].is_null();
-                    }else if(is_function == "is not empty"){
-                        obj = !isEmptyDicVar(obj[name_var]);
-                    }
-                    name_var.clear();
-                    break;
-                }else{
-                    if(!name_var.empty()){
-                        obj = obj[name_var];
-                    }
-                    obj = getDicVar(word);
-                    name_var.clear();
-                }
-            }
-            
-            // if(next == 'i' && container_->next() == 's'){
-            //     std::string is_function = 
-            //         next + parser_logic::getParams('%', container_);
-            //     parser_logic::skipTo('}', container_);
-
-            //     if(is_function == "is defined"){
-            //         obj = !obj[name_var].is_null();
-            //     }else if(is_function == "is not empty"){
-            //         obj = isEmptyDicVar(obj[name_var]);
-            //     }
-            //     name_var.clear();
-            //     break;
-            // }else if(next){
-            //     // ToDo
-            // }
-        }else if(
-            (c == '.' || c == '[' || c == ']')
-        ){
-            if(c == ']' && (pre != '\'' && pre != '"')){
-                // ToDo try catch Может быть переменная
-                int iter = std::atoi(name_var.c_str());
-                obj = obj[iter];
-            }else if(!name_var.empty()){
-                obj = obj[name_var];
-            }
-            name_var.clear();
-        }else if(c == '>' || c == '<' || c == '='){
-            if(isNumeric(name_var)){
-                // ToDo Доделать
-            }else{
-                obj = obj[name_var];
-            }
-            
-            // if()
-            // std::cout<< name_var << std::endl;
-        }else if(c != ' ' && c != '"' && c != '\''){
-            name_var.append(1, c);
-        }
-        pre = c;
-    }
-    
-    if(!name_var.empty()){
-        obj = obj[name_var];
-    }
-    if(count_read_tag > 0){
-        count_read_tag++;
-    }
-    return obj;
-}
 
 std::string canto_temp::parser_logic::Variables::getVar(){
     nlohmann::json dict = getDicVar();

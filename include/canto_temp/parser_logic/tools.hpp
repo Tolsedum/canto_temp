@@ -8,7 +8,7 @@
 #include <cctype>
 #include <algorithm>
 #include "canto_temp/json.hpp"
-#include "canto_temp/Container.hpp"
+#include "ContentReader.hpp"
 
 namespace canto_temp{
 namespace parser_logic{
@@ -21,13 +21,13 @@ namespace parser_logic{
 
     std::string getParams(
         std::vector<char> end_params,
-        std::shared_ptr<Container> container
+        ContentReader &container
     );
 
     std::string getParams(
         // std::size_t end_tag_pos,
         char end_params,
-        std::shared_ptr<Container> container
+        ContentReader &container
     );
 
     bool isNumeric(
@@ -36,7 +36,7 @@ namespace parser_logic{
     
     void skipTo(
         char c,
-        std::shared_ptr<Container> container
+        ContentReader &container
     );
 }// parser_logic
 }// canto_temp

@@ -4,10 +4,9 @@
 #include <iostream>
 #include <string>
 
-namespace canto_temp{
+namespace content_reader{
     class Container{
     public:
-    
         virtual ~Container() = default;
         virtual bool isEnd() = 0;
         virtual bool isNotEnd() = 0;

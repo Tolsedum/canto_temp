@@ -3,31 +3,35 @@
 /***************************** Public *****************************/
 canto_temp::Parser::Parser(
     std::string& output,
-    ContentParser& contentParser
+    ContentSettings& contentSettings
 ): output_(&output){
-    contentInit(std::forward<ContentParser>(contentParser));
+    contentInit(std::forward<ContentSettings>(contentSettings));
 }
 
 canto_temp::Parser::Parser(
     std::string&& output,
-    ContentParser&& contentParser
+    ContentSettings&& contentSettings
 ) : output_(&output){
-    contentInit(std::forward<ContentParser>(contentParser));
+    contentInit(std::forward<ContentSettings>(contentSettings));
 }
 
 void canto_temp::Parser::contentInit(
-    ContentParser&& contentParser
+    ContentSettings&& contentSettings
 ){
     if_exit_ = false;
-    if(contentParser.is_content){
-        container_ = std::make_shared<ContainerStr>(
-            std::move(contentParser.getContent())
-        );
-    }else if(contentParser.is_file){
-        container_ = std::make_shared<FileContainer>(
-            contentParser.getFileName()
-        );
-    }
+    container_.contentInit(
+        std::forward<ContentSettings>(contentSettings)
+    );
+    
+    // if(contentSettings.is_content){
+    //     container_ = std::make_shared<ContainerStr>(
+    //         std::move(contentSettings.getContent())
+    //     );
+    // }else if(contentSettings.is_file){
+    //     container_ = std::make_shared<FileContainer>(
+    //         contentSettings.getFileName()
+    //     );
+    // }
     var_controller_ = std::make_shared<parser_logic::Variables>(
         &obj_list_, container_
     );
@@ -84,7 +88,7 @@ void canto_temp::Parser::append(std::string str){
 void canto_temp::Parser::print(){
     std::cout << std::endl 
         << "-----------print BEGIN-----------" << std::endl;
-    container_->print();
+    container_.print();
     std::cout 
         << "----------------------" << std::endl
         << "output: "<< *output_ << std::endl
@@ -97,30 +101,21 @@ void canto_temp::Parser::render(
     std::string input_instruction
 ){
     bool not_skip_append = true;
-    while (container_->isNotEnd()){
+    while (container_.isNotEnd()){
         try{
-            char current = container_->current();
+            char current = container_.current();
             // ToDo Зацикливается файл
             if(current == '{' 
                 // || current == '%'
             ){
-                char next = container_->next();
+                char next = container_.next();
                 if(next == '%'){
                     
                     parser_logic::skipTo(' ', container_);
-                    // container_->next();
                     
                     std::string instruction_name = 
                         parser_logic::getParams({' ', '%'}, container_
                     );
-                    /*
-                        std::string tag = getParams('%');
-                        skipTo('}');
-                        
-                        std::string instruction_name = 
-                            eraseByNidle(tag, " ");
-                     */
-                    
                     if(input_instruction.empty()){
                         input_instruction = instruction_name;
                     }
@@ -129,7 +124,6 @@ void canto_temp::Parser::render(
                     if(breakLogic(
                         instruction_name, input_instruction
                     )){
-                        // parser_logic::skipTo('}', container_);
                         break;
                     }
                     readInstruction(
@@ -147,16 +141,16 @@ void canto_temp::Parser::render(
         }catch(const std::string& e){
             append(e);
         }
-        if(container_->isEnd()){
+        if(container_.isEnd()){
             not_skip_append = false;
             break;
         }
         if(not_skip_append)
-            container_->next();
+            container_.next();
         not_skip_append = true;
     }
     if(not_skip_append){
-        append(container_->current());
+        append(container_.current());
     }
     
 }
@@ -219,14 +213,14 @@ void canto_temp::Parser::readInstruction(
 std::string canto_temp::Parser::readTag(
     char tag
 ){
-    container_->next();
+    container_.next();
     switch (tag){
         case '#': {// Comment
-            std::size_t pos = container_->find(
-                "#}", container_->pos()
+            std::size_t pos = container_.find(
+                "#}", container_.pos()
             );
             if(pos != std::string::npos){
-                container_->setPos(pos+1);
+                container_.setPos(pos+1);
             }else{
                 // ToDo throw
             }
@@ -236,20 +230,12 @@ std::string canto_temp::Parser::readTag(
             std::string str = var_controller_->getVar(
                 parser_logic::getParams('}', container_)
             );
-            container_->next();
+            container_.next();
             if(!str.empty()){
                 return str;
             }
             break;
         } 
-        // case '%':{// Instructions
-        //     std::string tag = getParams('%');
-        //     std::string str = readInstruction(tag);
-        //     if(!str.empty()){
-        //         return str;
-        //     }
-        //     break;
-        // }
         default: {
             break;
         }
@@ -261,18 +247,21 @@ void canto_temp::Parser::ifInstruction(){
     std::string content{};
     int count_if = 0;
     bool skip = false;
-    if(var_controller_->getBoolDicVar(var_controller_->getDicVar())){
+    if(
+        // var_controller_->getBoolDicVar(var_controller_->getDicVar())
+        var_controller_->getBoolDicVar(var_controller_->getDicVarTest())
+    ){
         render("if");
         skip = true;
     }
     
     if(!if_exit_){
-        while (container_->isNotEnd()){
-            char current = container_->next();
+        while (container_.isNotEnd()){
+            char current = container_.next();
             if(current == '{' 
-                && container_->next() == '%'
+                && container_.next() == '%'
             ){
-                container_->next();
+                container_.next();
                 std::string tag = parser_logic::getParams(
                     '%', container_
                 );
@@ -289,7 +278,9 @@ void canto_temp::Parser::ifInstruction(){
                         parser_logic::skipTo(' ', container_);
 
                         if(var_controller_->getBoolDicVar(
-                            var_controller_->getDicVar(tag)
+                            // var_controller_->getDicVar(tag)
+                            var_controller_->getDicVarTest(tag)
+                            
                         )){
                             render("if");
                             skip = true;
@@ -297,11 +288,10 @@ void canto_temp::Parser::ifInstruction(){
                     }
                 }else if(tag.find("else") != std::string::npos){
                     if(count_if == 0 && !skip){
-                        if(container_->current() == '}'){
-                            container_->next();
+                        if(container_.current() == '}'){
+                            container_.next();
                         }
                         render("if");
-                        // skip = true;
                         break;
                     }
                 }else if(tag.find("if") != std::string::npos){
@@ -309,8 +299,8 @@ void canto_temp::Parser::ifInstruction(){
                 }
             }
         }
-        if(container_->current() == '}'){
-            container_->next();
+        if(container_.current() == '}'){
+            container_.next();
         }
         
     }
@@ -318,7 +308,39 @@ void canto_temp::Parser::ifInstruction(){
 }
 
 void canto_temp::Parser::setInstruction(){
-    print();
+    std::string name_var = parser_logic::getParams(
+        '=', container_
+    );
+    container_.next();
+
+    std::string var = parser_logic::getParams(
+        '%', container_
+    );
+    
+    if(var[0] == '{'){
+        // ToDo set array
+    }
+    // else if(var == "true"){
+    //     var_controller_->setVar(name_var, true);
+    // }else if(var == "false"){
+    //     var_controller_->setVar(name_var, false);
+    // }
+    else if(var.find('"') != std::string::npos){
+        var_controller_->setVar(name_var, var);
+    }
+    else if(parser_logic::isNumeric(var)){
+        if(var.find('.') != std::string::npos){
+            var_controller_->setVar(name_var, std::atof(var.c_str()));
+        }else{
+            var_controller_->setVar(name_var, std::atoi(var.c_str()));
+        }
+    }
+    else{
+        var_controller_->setVar(
+            name_var, var_controller_->getDicVarTest(var)
+        );
+    }
+    parser_logic::skipTo('}', container_);
 }
 
 /***************************** END Private *****************************/

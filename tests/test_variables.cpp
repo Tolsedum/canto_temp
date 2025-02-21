@@ -1,7 +1,6 @@
-#include <iostream>
+
 #include "../canto_temp/Parser.hpp"
-#include "../canto_temp/ContainerStr.hpp"
-#include "../canto_temp/FileContainer.hpp"
+#include "../ContentReader.hpp"
 
 
 void startParser(
@@ -9,7 +8,7 @@ void startParser(
     std::string& output,
     std::map<std::string, nlohmann::json>& dict
 ){
-    canto_temp::ContentParser contentParser;
+    ContentSettings contentSettings;
     
     // std::ifstream ifile(file_name);
     // std::string inp, tmp;
@@ -18,11 +17,11 @@ void startParser(
     //     inp.append(1, '\n');
     // }
     // contentParser.setContent(inp);
-    contentParser.setFileName(file_name);
+    contentSettings.setFileName(file_name);
 
     canto_temp::Parser parser(
         std::move(output), 
-        std::move(contentParser)
+        std::move(contentSettings)
     );
     parser.assign(dict);
     parser.render();
@@ -57,10 +56,10 @@ void listTest(){
     list_vars["count"] = 1;
     
     for (std::string file_name : {
-        // "tests/test_comments.html",
-        // "tests/test_getting_var.html",
-        // "tests/test_filter_var.html",
-        // "tests/test_if_else.html"
+        "tests/test_comments.html",
+        "tests/test_getting_var.html",
+        "tests/test_filter_var.html",
+        "tests/test_if_else.html",
         "tests/test_set_instruction.html"
     }){
         std::string output;
