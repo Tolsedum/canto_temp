@@ -16,24 +16,21 @@ struct ContentSettings{
     void setFileName(const std::string& file_name){
         is_file = true;
         is_content = false;
-        file_name_ = file_name;
-        content_.clear();
+        content_or_file_name_ = file_name;
     }
     void setContent(const std::string& content){
         is_file = false;
         is_content = true;
-        content_ = content;
-        file_name_.clear();
+        content_or_file_name_ = content;
     }
     std::string& getContent(){
-        return content_;
+        return content_or_file_name_;
     }
     std::string& getFileName(){
-        return file_name_;
+        return content_or_file_name_;
     }
 private:
-    std::string file_name_;
-    std::string content_;
+    std::string content_or_file_name_;
 };
 
 class ContentReader{

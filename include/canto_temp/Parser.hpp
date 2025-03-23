@@ -3,6 +3,7 @@
 
 #include "ContentReader.hpp"
 #include "canto_temp/parser_logic/Variables.hpp"
+#include "canto_temp/parser_logic/Tag.hpp"
 
 namespace canto_temp{
     class Parser{
@@ -10,9 +11,6 @@ namespace canto_temp{
         std::string* output_;
         ContentReader container_;
         std::shared_ptr<parser_logic::Variables> var_controller_;
-        // std::shared_ptr<parser_logic::Instructions> instructions_controller_;
-        // std::shared_ptr<parser_logic::Reader> reader_;
-
         std::map<std::string, nlohmann::json> obj_list_;
         
         void append(char c);
@@ -36,7 +34,9 @@ namespace canto_temp{
          * @param tag Name tag
          * @return String result
          */
-        std::string readTag(char tag);
+        // std::string readTag(Tag tag);
+
+        void stashComments();
 
         std::string readInstructionContent(
             std::string instruction_name, std::string tag

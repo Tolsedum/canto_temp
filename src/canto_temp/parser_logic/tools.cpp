@@ -97,3 +97,17 @@ void canto_temp::parser_logic::skipTo(
         container.next();
     }
 }
+
+void canto_temp::parser_logic::skipTo(
+    std::string str,
+    ContentReader &container
+){
+    std::size_t pos = container.find(
+        str, container.pos()
+    );
+    if(pos != std::string::npos){
+        container.setPos(pos+1);
+    }else{
+        // ToDo throw
+    }
+}

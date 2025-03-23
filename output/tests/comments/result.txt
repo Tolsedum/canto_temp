@@ -1,0 +1,12 @@
+
+    <div>http://example.com</div>
+
+##END
+<div>undefined</div>
+##END
+<div>http://google.com</div>
+##END
+<div></div>",
+##END
+<span></span>
+##END

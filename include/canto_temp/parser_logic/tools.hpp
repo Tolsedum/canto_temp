@@ -38,6 +38,11 @@ namespace parser_logic{
         char c,
         ContentReader &container
     );
+
+    void skipTo(
+        std::string str,
+        ContentReader &container
+    );
 }// parser_logic
 }// canto_temp
 

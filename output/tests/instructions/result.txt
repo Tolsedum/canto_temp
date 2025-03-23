@@ -1,0 +1,30 @@
+<div class="1">
+    
+    1
+</div>
+##END
+<div class="2">
+    
+    1.5
+</div>
+##END
+<div class="3">
+    
+    \"string content.comments\"
+</div>
+##END
+<div class="4">
+    
+    true
+</div>
+##END
+<div class="5">
+    
+    string
+</div>
+##END
+<div class="6">{% set args = {'!author': author, '!date': created} %}</div>
+##END
+<div class="7">{% set createdDate = node.getCreatedTime|date('M d, Y') %}</div>
+##END
+

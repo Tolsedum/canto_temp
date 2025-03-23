@@ -4,6 +4,6 @@ src/main.o: src/main.cpp include/canto_temp/Parser.hpp \
  include/content_reader/FileContainer.hpp \
  include/canto_temp/parser_logic/Variables.hpp \
  include/canto_temp/parser_logic/tools.hpp include/canto_temp/json.hpp \
- src/../tests/test_variables.cpp \
+ include/canto_temp/parser_logic/Tag.hpp src/../tests/test_variables.cpp \
  include/content_reader/../canto_temp/Parser.hpp \
  include/content_reader/../ContentReader.hpp

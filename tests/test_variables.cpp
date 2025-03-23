@@ -2,6 +2,22 @@
 #include "../canto_temp/Parser.hpp"
 #include "../ContentReader.hpp"
 
+void startStrParser(
+    std::string& content, 
+    std::string& output,
+    std::map<std::string, nlohmann::json>& dict
+){
+    ContentSettings contentSettings;
+    
+    contentSettings.setContent(content);
+    canto_temp::Parser parser(
+        std::move(output), 
+        std::move(contentSettings)
+    );
+    parser.assign(dict);
+    parser.render();
+    output.append(1, '\n');
+}
 
 void startParser(
     std::string& file_name, 
@@ -10,13 +26,6 @@ void startParser(
 ){
     ContentSettings contentSettings;
     
-    // std::ifstream ifile(file_name);
-    // std::string inp, tmp;
-    // while (std::getline(ifile, tmp)){
-    //     inp.append(tmp);
-    //     inp.append(1, '\n');
-    // }
-    // contentParser.setContent(inp);
     contentSettings.setFileName(file_name);
 
     canto_temp::Parser parser(
@@ -26,6 +35,61 @@ void startParser(
     parser.assign(dict);
     parser.render();
     output.append(1, '\n');
+}
+
+void pars(
+    std::string path,
+    std::map<std::string, nlohmann::json> list_vars
+){
+
+    int file_count = std::distance(
+        std::filesystem::directory_iterator(path),
+        std::filesystem::directory_iterator{}
+    )-1;
+    int file_iter = 1;
+    std::vector<std::string> list_source_results;
+
+    for (int i = 0; i < file_count; i++){
+        std::string file_name = path + "/source"+std::to_string(file_iter)+".html";
+        file_iter++;
+        std::string output;
+        startParser(file_name, output, list_vars);
+        list_source_results.push_back(output);
+    }
+
+    std::string file_result = path + "/result.txt";
+    std::ifstream i_file(file_result);
+        if(i_file.is_open()){
+            std::string result, tmp;
+            std::vector<std::string> list_result;
+            while (std::getline(i_file, tmp)){
+                if(tmp != "##END"){
+                    result.append(tmp);
+                    result.append(1, '\n');
+                }else{
+                    result.erase(result.size()-1);
+                    list_result.push_back(result);
+                    result.clear();
+                }
+            }
+            i_file.close();
+            
+            for (int i = 0; i < (int)list_result.size(); i++){
+                char res = 
+                    (list_result[i] + "\n" == list_source_results[i])
+                    ? 'V' : 'X';
+                std::cout << 
+                    i << ") file test source" << i+1 
+                    << ".html " << res << std::endl;
+                if(res == 'X'){
+                    std::cout 
+                        << list_result[i] 
+                        << std::endl
+                        << list_source_results[i]
+                    << std::endl;
+                }
+            }
+        }
 }
 
 void listTest(){
@@ -55,19 +119,15 @@ void listTest(){
     list_vars["content"] = par;
     list_vars["count"] = 1;
     
-    for (std::string file_name : {
-        "tests/test_comments.html",
-        "tests/test_getting_var.html",
-        "tests/test_filter_var.html",
-        "tests/test_if_else.html",
-        "tests/test_set_instruction.html"
-    }){
-        std::string output;
-        startParser(file_name, output, list_vars);
-        std::cout 
-            <<"Test " + file_name + ": \n" <<  output 
-            << "------------------------------------------------------\n"
-        << std::endl;
-        output.clear();
+    std::vector<std::string> loop{
+        "tests/getting_var",
+        "tests/comments",
+        "tests/filter_var",
+        "tests/if_else",
+        "tests/instructions",
+    };
+
+    for (auto path : loop){
+        pars(path, list_vars);
     }
 }

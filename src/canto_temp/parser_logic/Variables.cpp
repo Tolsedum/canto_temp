@@ -384,10 +384,15 @@ std::string canto_temp::parser_logic::Variables::getVar(
             }
         }
     }
+    // return std::string(dict);
     std::ostringstream oss;
     oss << dict;
-    
-    return oss.str();
+    std::string ret_value(oss.str()); 
+    if(dict.is_string()){
+        ret_value.erase(0, 1);
+        ret_value.erase(ret_value.size()-1);
+    }
+    return ret_value;
 }
 
 bool canto_temp::parser_logic::Variables::getBoolDicVar(
@@ -453,6 +458,15 @@ std::string canto_temp::parser_logic::Variables::getVar(){
     //         }
     //     }
     // }
+    // std::string ret_value(dict);
+    // if(ret_value.size() > 0
+    //     && ret_value[0] == '"'
+    //     && ret_value[ret_value.size()-1] == '"'
+    // ){
+    //     ret_value.erase(0, 1);
+    //     ret_value.erase(ret_value.size()-1);
+    // }
+    // return ret_value;
     std::ostringstream oss;
     oss << dict;
     return oss.str();

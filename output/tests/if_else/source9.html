@@ -1,0 +1,20 @@
+<div class="9">
+    {% if online == false %}
+        <p>Our website is in maintenance mode. Please, come back later.</p>
+    {% endif %}
+    {% if online == true %}
+        <p>Our website is in maintenance mode. Please, come back later.</p>
+    {% endif %}
+    {% if xs[1].enable == true %}
+        <p>enable == true</p>
+    {% endif %}
+    {% if xs[1].enable == false %}
+        <p>enable == false</p>
+    {% endif %}
+    {% if xs[1].enable != true %}
+        <p>enable != false</p>
+    {% endif %}
+    {% if xs[1].enable != false %}
+        <p>enable != false</p>
+    {% endif %}
+</div>
