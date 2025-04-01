@@ -16,6 +16,7 @@ namespace content_reader{
         virtual void setPos(int) = 0;
         virtual std::size_t find(std::string_view, std::size_t s = 0) = 0;
         virtual std::size_t find(char, std::size_t s = 0) = 0;
+        virtual std::size_t size() = 0;
 
         virtual void print() = 0;
     };

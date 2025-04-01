@@ -5,4 +5,5 @@ src/canto_temp/Parser.o: src/canto_temp/Parser.cpp \
  include/content_reader/FileContainer.hpp \
  include/canto_temp/parser_logic/Variables.hpp \
  include/canto_temp/parser_logic/tools.hpp include/canto_temp/json.hpp \
+ include/canto_temp/parser_logic/Token.hpp \
  include/canto_temp/parser_logic/Tag.hpp

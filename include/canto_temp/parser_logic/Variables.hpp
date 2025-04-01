@@ -2,7 +2,7 @@
 #define VARIABLES_HPP
 
 #include "canto_temp/parser_logic/tools.hpp"
-
+#include "canto_temp/parser_logic/Token.hpp"
 
 namespace canto_temp{
 namespace parser_logic{
@@ -20,7 +20,20 @@ namespace parser_logic{
         // nlohmann::json readVar();
     
         // std::string get
+
+
+        void skipSpace(Token& token);
+        void skipBy(Token& token, Token::Cell by);
+        int scanNumeric(Token &token);
+        std::string scanString(Token &token);
+        std::string scanIdName(Token &token);
+        nlohmann::json scanIdValue(Token &token, nlohmann::json dict);
         
+        nlohmann::json scanVariable(
+            Token &token, nlohmann::json dict, 
+            Token::Cell after = Token::Cell::unknown
+        );
+
     public:
         Variables(
             std::map<std::string, nlohmann::json> *obj_list,
@@ -31,18 +44,16 @@ namespace parser_logic{
         void addFilterFunctions(
             std::string func_name, std::function<void(nlohmann::json&)>
         );
-        // std::string render(std::size_t end_tag_pos);
-        nlohmann::json getDicVar(
-            std::string tag
-        );
-        // ToDo потдерживать в одном месте
-        nlohmann::json getDicVar();
+       
         std::string getVar(
             std::string str_var
         );
         std::string getVar();
 
-        nlohmann::json getDicVarTest(std::string var = "");
+        nlohmann::json parseOperation(void);
+        nlohmann::json parseVariable(void);
+
+        nlohmann::json getDicVar(std::string var = "");
 
         bool getBoolDicVar(nlohmann::json dic);
         bool isSetDicVar(nlohmann::json &dic);
@@ -51,7 +62,6 @@ namespace parser_logic{
             nlohmann::json dic, nlohmann::json dic1, char comp
         );
 
-        
 
         void setVar(std::string var_name, nlohmann::json new_var);
 

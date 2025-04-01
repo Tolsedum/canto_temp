@@ -5,11 +5,12 @@
 
 namespace content_reader{
     class ContainerStr : public Container{
+        bool is_end_;
+        int pos_;
+        std::size_t content_size_;
         std::string_view container_;
         std::string_view::const_iterator begin_;
         std::string_view::const_iterator end_;
-        bool is_end_;
-        int pos_;
 
         void constructor_();
     public:
@@ -32,6 +33,7 @@ namespace content_reader{
         void setPos(int) override;
         std::size_t find(std::string_view str, std::size_t p = 0) override;
         std::size_t find(char c, std::size_t p = 0) override;
+        std::size_t size() override;
 
         void print() override {std::cout<< begin_ << std::endl;};
     };

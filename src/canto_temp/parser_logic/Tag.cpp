@@ -15,7 +15,7 @@ void canto_temp::Tag::initTag(){
     }else if(current_ == '}'){
         next_ = container_->next();
         if(next_ == '}'){
-            cell_ = Cell::var_open;
+            cell_ = Cell::var_close;
         }else{
             cell_= Cell::text;
         }

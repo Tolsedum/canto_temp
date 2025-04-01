@@ -6,11 +6,28 @@
 namespace canto_temp{
     
     class Token{
+    public:
         enum class Cell{
-            text,
-            id,                 // this, this.foo
-            number,             // 1, 2, -1, 5.2, -5.3
-            string,             // "this"
+            /**
+             * Унарные операции:
+             * ++; --; ~; !; -; +; &;
+             *   Бинарные операции:
+             *   *; /; %; +; -; <<; >>; <; <=; >; >=; ==; !=; &; ^; 
+             *   |; &&; ||; =; *=; /=; %= +=; -=; <<=; >>=; &=; |=; ^=;
+             *   Тернарные:
+             *   ?; :;
+             */
+            // text,
+            id,                  // this, this.foo
+            instruction_open,    // {%
+            instruction_close,   // %}
+            logic_ore,           // ||
+            logic_and,           // &&
+            bit_ore,             // |
+            bit_and,             // &
+            number,              // 1, 2, -1, 5.2, -5.3
+            string,              // "this"
+            assign,              // =
             plus,                // +
             minus,               // -
             times,               // *
@@ -19,32 +36,48 @@ namespace canto_temp{
             power,               // ^
             comma,               // ,
             dot,                 // .
-            colon,               // :
+            ternar_else,         // :
+            ternar_then,         // ?
+            null_operator,       // ??
             left_paren,          // (
             right_paren,         // )
             left_bracket,        // [
             right_bracket,       // ]
             left_brace,          // {
+            var_open,            // {{
             right_brace,         // }
+            var_close,           // }}
             equal,               // ==
             not_equal,           // !=
+            bit_not_equal,       // !
             greater_than,        // >
             greater_equal,       // >=
             less_than,           // <
             less_equal,          // <=
+            space,               // space on board
             unknown,
             eof
         };
-        
+    protected:
+        bool next_init_;
+        char current_, next_;
         Cell cell_;
-
-        void initToken(char current, char next);
+        std::shared_ptr<ContentReader> container_;
+        
     public:
-        Token(char current, char next){
-            initToken(current, next);
+        Token(ContentReader &container){
+            container_ = std::make_shared<ContentReader>(container);
+            current_ = container_->current();
+            next_init_ = false;
+            initToken();
         };
         ~Token(){};
+        char getNext(){return next_;};
+        char getCurrent(){return current_;};
         Cell getCell(){return cell_;};
+        void initToken();
+
+        char next();
     };
 }
 

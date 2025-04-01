@@ -8,9 +8,10 @@
 namespace content_reader{
     class FileContainer : public Container{
         bool next_read_;
-        std::ifstream file_p_;
         char current_, next_;
         std::size_t file_size_;
+        std::ifstream file_p_;
+        
     public:
         FileContainer(std::string_view file_name);
         ~FileContainer(){
@@ -24,8 +25,7 @@ namespace content_reader{
         void setPos(int) override;
         std::size_t find(std::string_view str, std::size_t p = 0) override;
         std::size_t find(char c, std::size_t p = 0) override;
-
-        std::streamoff getPos(){return file_p_.tellg();};
+        std::size_t size() override;
 
         void print() override;
     };

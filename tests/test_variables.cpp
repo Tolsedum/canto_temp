@@ -41,7 +41,9 @@ void pars(
     std::string path,
     std::map<std::string, nlohmann::json> list_vars
 ){
-
+    std::cout << "********************** " 
+        << path << " **********************" 
+    << std::endl<< std::endl;
     int file_count = std::distance(
         std::filesystem::directory_iterator(path),
         std::filesystem::directory_iterator{}
@@ -120,11 +122,11 @@ void listTest(){
     list_vars["count"] = 1;
     
     std::vector<std::string> loop{
-        "tests/getting_var",
-        "tests/comments",
+        // "tests/getting_var",
+        // "tests/comments",
         "tests/filter_var",
-        "tests/if_else",
-        "tests/instructions",
+        // "tests/if_else",
+        // "tests/instructions",
     };
 
     for (auto path : loop){

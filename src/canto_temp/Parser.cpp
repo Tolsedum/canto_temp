@@ -210,7 +210,7 @@ void canto_temp::Parser::ifInstruction(){
     int count_if = 0;
     bool skip = false;
     if(
-        var_controller_->getBoolDicVar(var_controller_->getDicVarTest())
+        var_controller_->getBoolDicVar(var_controller_->getDicVar())
     ){
         render("if");
         skip = true;
@@ -239,8 +239,7 @@ void canto_temp::Parser::ifInstruction(){
                         parser_logic::skipTo(' ', container_);
 
                         if(var_controller_->getBoolDicVar(
-                            var_controller_->getDicVarTest(tag)
-                            
+                            var_controller_->getDicVar(tag)
                         )){
                             render("if");
                             skip = true;
@@ -299,7 +298,7 @@ void canto_temp::Parser::setInstruction(){
     }
     else{
         var_controller_->setVar(
-            name_var, var_controller_->getDicVarTest(var)
+            name_var, var_controller_->getDicVar(var)
         );
     }
     parser_logic::skipTo('}', container_);
