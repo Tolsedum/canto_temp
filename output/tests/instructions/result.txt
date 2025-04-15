@@ -10,7 +10,7 @@
 ##END
 <div class="3">
     
-    \"string content.comments\"
+    string content.comments
 </div>
 ##END
 <div class="4">

@@ -1,4 +1,5 @@
 <div class="1">HTTP://EXAMPLE.COM</div>
+<div class="2">http://example.com</div>
 ##END
 <div class="2">4</div>
 ##END
