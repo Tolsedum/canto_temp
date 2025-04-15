@@ -56,6 +56,7 @@ void pars(
         file_iter++;
         std::string output;
         startParser(file_name, output, list_vars);
+        std::cout << file_name << std::endl;
         list_source_results.push_back(output);
     }
 
@@ -75,8 +76,21 @@ void pars(
                 }
             }
             i_file.close();
-            
+
             for (int i = 0; i < (int)list_result.size(); i++){
+
+                std::cout << "result: ";
+                for (auto &&e : list_source_results[i]){
+                    std::cout << (int)e << " ";
+                }
+                std::cout << std::endl<< std::endl;
+                
+                std::cout << "test:   ";
+                for (auto &&e : list_result[i]){
+                    std::cout << (int)e << " ";
+                }
+                std::cout << (int)'\n' << std::endl<< std::endl;
+
                 char res = 
                     (list_result[i] + "\n" == list_source_results[i])
                     ? 'V' : 'X';
@@ -122,11 +136,12 @@ void listTest(){
     list_vars["count"] = 1;
     
     std::vector<std::string> loop{
-        // "tests/getting_var",
+        // "tests/current",
         // "tests/comments",
-        "tests/filter_var",
+        // "tests/getting_var",
+        // "tests/filter_var",
         // "tests/if_else",
-        // "tests/instructions",
+        "tests/instructions",
     };
 
     for (auto path : loop){

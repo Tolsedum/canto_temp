@@ -8,6 +8,7 @@
 namespace canto_temp{
     class Parser{
         bool if_exit_;
+        int iter_count_;
         std::string* output_;
         ContentReader container_;
         std::shared_ptr<parser_logic::Variables> var_controller_;
@@ -27,7 +28,7 @@ namespace canto_temp{
          * @return String result
          */
         void readInstruction(
-            std::string instuction//, std::string data
+            std::string instuction, Tag &tag
         );
         /**
          * @brief Start read tag (readVar or readInstruction)
@@ -45,12 +46,12 @@ namespace canto_temp{
             std::string& str, std::string nidle
         );
         bool breakLogic(
-            std::string& instruction_name, std::string& tag_name
+            std::string& instruction_name, std::string& tag_name, Tag& tag
         );
 
         /********************* Instructions *********************/
-        void ifInstruction();
-        void setInstruction();
+        void ifInstruction(Tag &tag);
+        void setInstruction(Tag &tag);
 
         /********************* END Instructions *********************/
     public:

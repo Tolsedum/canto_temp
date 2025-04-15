@@ -9,6 +9,7 @@
 #include <algorithm>
 #include "canto_temp/json.hpp"
 #include "ContentReader.hpp"
+#include "canto_temp/parser_logic/Token.hpp"
 
 namespace canto_temp{
 namespace parser_logic{
@@ -43,6 +44,43 @@ namespace parser_logic{
         std::string str,
         ContentReader &container
     );
+
+
+    template<class T, class Cell>
+    void skipBy(
+        T& token, Cell by
+    ){
+        while (
+            token.getCell() != Cell::eof
+            && token.getCell() != by
+        ){
+            token.next();
+        }
+    }
+
+    template<class T, typename Cell>
+    std::string getWord(
+        T &token, Cell
+    ){
+        std::string ret_var{};
+        while (token.getIterCount()){
+            Cell cell = token.getCell();
+            if(cell == Cell::id || cell == Cell::number){
+                ret_var.append(1, token.getCurrent());
+            }else {
+                break;
+            }
+            token.next();
+        }
+        return ret_var;
+    }
+
+    template<class T>
+    void skipSpace(T& token){
+        while (token.getCell() == T::Cell::space){
+            token.next();
+        }
+    }
 }// parser_logic
 }// canto_temp
 

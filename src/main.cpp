@@ -32,14 +32,14 @@ void testVar(){
     ContentReader container;
     ContentSettings contentSettings;
     
-    contentSettings.setContent("{{ xs[0].user ?? \"No\" }}");
+    contentSettings.setContent("{{ true }}");
     container.contentInit(
         std::forward<ContentSettings>(contentSettings)
     );
     
-    canto_temp::parser_logic::Variables var(&list_vars, container);
+    // canto_temp::parser_logic::Variables var(&list_vars, container);
 
-    std::cout << var.parseVariable().get<std::string>() << std::endl;
+    // std::cout << var.getVar() << std::endl;
 }
 
 /** https://ruden.github.io/twig-docs-ru/templates.html
@@ -68,13 +68,9 @@ void testVar(){
  */
 
 int main(){ // int argc, char *argv[]
-    testVar();
-    // testJson();
-    // testParser();
-    // testContainer();
-    exit(0);
+    // testVar();
+    // exit(0);
     listTest();
-    // testFind();
 
     return 0;
     

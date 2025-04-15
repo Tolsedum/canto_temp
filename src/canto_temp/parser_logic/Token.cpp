@@ -1,41 +1,71 @@
 #include "canto_temp/parser_logic/Token.hpp"
 
-char canto_temp::Token::next(){
+char canto_temp::Token::localNext(void){
+    (*iter_count_)--;
+    return container_->next();
+}
+
+char canto_temp::Token::next(void){
     if(next_init_){
         current_ = next_;
         next_init_ = false;
     }else{
-        current_ = container_->next();
+        current_ = localNext();
     }
-    initToken();
+    init();
     return current_;
 }
 
-void canto_temp::Token::initToken(){
-    if(((int)current_ >= 65 &&  (int)current_ <= 90)
+void canto_temp::Token::init(void){
+    is_operator_ = false;
+    if((*iter_count_) <= 0){
+        cell_ = Cell::eof;
+    }else if(((int)current_ >= 65 &&  (int)current_ <= 90)
       || ((int)current_ >= 97 &&  (int)current_ <= 122)
       || (int)current_ == 95
     ){
-      cell_ = Cell::id;
+        if(current_ == 'i'){
+            if(!next_init_){
+                next_ = localNext();
+            }
+            if (next_ == 's') {
+                cell_ = Cell::is_equal;
+                is_operator_ = true;
+            }else{
+                next_init_ = true;
+                cell_ = Cell::id;
+            }
+        }else{
+            cell_ = Cell::id;
+        }
+    }else if(
+        ((int)current_ >= 48 &&  (int)current_ <= 57)
+    ){
+        cell_ = Cell::number;
     }else{
       switch (current_) {
         case '+':{
+            is_operator_ = true;
             cell_ = Cell::plus;
             break;
           }
         case '-':{
+            is_operator_ = true;
             cell_ = Cell::minus;
             break;
           }
         case '*':{
+            is_operator_ = true;
             cell_ = Cell::times;
             break;
           }
         case '/':{
+            is_operator_ = true;
             cell_ = Cell::slash;
             break;
           }
         case '^':{
+            is_operator_ = true;
             cell_ = Cell::power;
             break;
           }
@@ -53,7 +83,7 @@ void canto_temp::Token::initToken(){
           }
         case '?':{
             if(!next_init_){
-                next_ = container_->next();
+                next_ = localNext();
             }
             if(next_ == '?'){
                 cell_ = Cell::null_operator;
@@ -85,7 +115,7 @@ void canto_temp::Token::initToken(){
         }
         case '{':{
             if(!next_init_){
-                next_ = container_->next();
+                next_ = localNext();
             }
             if(next_ == '{'){
                 cell_ = Cell::var_open;
@@ -99,7 +129,7 @@ void canto_temp::Token::initToken(){
           }
         case '}':{
             if(!next_init_){
-                next_ = container_->next();
+                next_ = localNext();
             }
             if(next_ == '}'){
                 cell_ = Cell::var_close;
@@ -111,11 +141,12 @@ void canto_temp::Token::initToken(){
           }
         case '%':{
             if(!next_init_){
-                next_ = container_->next();
+                next_ = localNext();
             }
             if(next_ == '}'){
                 cell_ = Cell::instruction_close;
             }else{
+                is_operator_ = true;
                 next_init_ = true;
                 cell_ = Cell::percent;
             }
@@ -123,10 +154,11 @@ void canto_temp::Token::initToken(){
           }
         case '|':{
             if(!next_init_){
-                next_ = container_->next();
+                next_ = localNext();
             }
             if(next_ == '|'){
                 cell_ = Cell::logic_ore;
+                is_operator_ = true;
             }else{
                 next_init_ = true;
                 cell_ = Cell::bit_ore;
@@ -135,10 +167,11 @@ void canto_temp::Token::initToken(){
         }
         case '&':{
             if(!next_init_){
-                next_ = container_->next();
+                next_ = localNext();
             }
             if(next_ == '&'){
                 cell_ = Cell::logic_and;
+                is_operator_ = true;
             }else{
                 next_init_ = true;
                 cell_ = Cell::bit_and;
@@ -146,8 +179,9 @@ void canto_temp::Token::initToken(){
             break;
         }
         case '>':{
+            is_operator_ = true;
             if(!next_init_){
-                next_ = container_->next();
+                next_ = localNext();
             }
             if (next_ == '=') {
                 cell_ = Cell::greater_equal;
@@ -158,8 +192,9 @@ void canto_temp::Token::initToken(){
             break;
         }
         case '<':{
+            is_operator_ = true;
             if(!next_init_){
-                next_ = container_->next();
+                next_ = localNext();
             }
             if (next_ == '=') {
                 cell_ = Cell::less_equal;
@@ -170,8 +205,9 @@ void canto_temp::Token::initToken(){
             break;
         }
         case '=':{
+            is_operator_ = true;
             if(!next_init_){
-                next_ = container_->next();
+                next_ = localNext();
             }
             if (next_ == '=') {
                 cell_ = Cell::equal;
@@ -182,8 +218,9 @@ void canto_temp::Token::initToken(){
             break;
         }
         case '!':{
+            is_operator_ = true;
             if(!next_init_){
-                next_ = container_->next();
+                next_ = localNext();
             }
             if (next_ == '=') {
                 cell_ = Cell::not_equal;
@@ -195,19 +232,6 @@ void canto_temp::Token::initToken(){
         }
         case '\"':{
             cell_ = Cell::string;
-            break;
-        }
-        case '0':
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':{
-            cell_ = Cell::number;
             break;
         }
         // case '@':
