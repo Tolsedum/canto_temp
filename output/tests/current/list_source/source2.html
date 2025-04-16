@@ -1,0 +1,18 @@
+<div class="2">
+    {% set custom_var1 = 1 %}
+    {{ custom_var1 }}
+</div>
+<div class="3">
+    {% set custom_var3 = "string content.comments" %}
+    {{ custom_var3 }}
+</div>
+<div class="4">{% if content.comments is not empty %} "Div number 6" {% else %} "Div number 6 second" {% endif %}</div>
+<div class="5">{% if content.comments is not empty %} 
+    "Div number 3 first" 
+{% elseif content.comments %} 
+    "Div number 3 second" 
+{% else %} 
+    "Div number 1 last"
+{% endif %}</div>
+<div class="6">{{ title  | upperf }}</div>
+<div class="7">{{ xs[0].url|upper }} {{ xs[0].url|upper|lower }}</div>

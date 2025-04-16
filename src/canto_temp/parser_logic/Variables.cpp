@@ -228,7 +228,9 @@ void canto_temp::parser_logic::Variables::scanBitOr(
         parser_logic::skipSpace(token);
     }
     
-    std::string name_function = scanString(token);
+    std::string name_function = parser_logic::getWord(
+        token, Token::Cell::id
+    );
     
     if(!name_function.empty()){
         auto f = func_.find(name_function);
@@ -322,7 +324,14 @@ nlohmann::json canto_temp::parser_logic::Variables::scanVariable(
         }else if(cell == Token::Cell::left_bracket){
             token.next();
             if(token.getCell() == Token::Cell::number){
-                object_value = object_value[scanNumeric(token)];
+                nlohmann::json num = scanNumeric(token);
+                if(num.is_number_unsigned()){
+                    object_value = object_value[(unsigned)num];
+                }else if(num.is_number_integer()){
+                    object_value = object_value[(int)num];
+                }else if(num.is_number_float()){
+                    object_value = object_value[(float)num];
+                }
             }else if(token.getCell() == Token::Cell::string){
                 object_value = object_value[scanString(token)];
             }else if(token.getCell() == Token::Cell::id){

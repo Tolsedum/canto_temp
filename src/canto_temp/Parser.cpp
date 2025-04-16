@@ -73,7 +73,6 @@ bool canto_temp::Parser::breakLogic(
 
 void canto_temp::Parser::append(char c){
     output_->append(1, c);
-    std::cout << (int)c <<std::endl;
 }
 void canto_temp::Parser::append(std::string str){
     output_->append(str);
@@ -213,6 +212,8 @@ void canto_temp::Parser::readInstruction(
             ifInstruction(tag);
         }else if(instruction == "set"){
             setInstruction(tag);
+        }else if(instruction == "include"){
+            includeInstruction(tag);
         }else if(instruction == "for"){
 
         }else if(instruction == "foreach"){
@@ -220,8 +221,6 @@ void canto_temp::Parser::readInstruction(
         }else if(instruction == "extends"){
 
         }else if(instruction == "block"){
-
-        }else if(instruction == "include"){
 
         }
     }
@@ -319,6 +318,36 @@ void canto_temp::Parser::setInstruction(Tag &tag){
         );
     }else{
         // ToDo throw
+    }
+}
+
+void canto_temp::Parser::includeInstruction(Tag &tag){
+    parser_logic::skipSpace(tag);
+    
+    std::string file_name{};
+    if(tag.getCurrent() == '"' || tag.getCurrent() == '\''){
+        file_name = canto_temp::parser_logic::getWord(
+            tag, Tag::Cell::id
+        );
+        file_name.erase(0, 1);
+        file_name.erase(file_name.size()-1, 1);
+    }else{
+        file_name = 
+            var_controller_->getVar();
+    }
+    
+    if(std::filesystem::exists(file_name)){
+        auto dict = obj_list_;
+        ContentSettings contentSettings;
+        contentSettings.setFileName(file_name);
+        canto_temp::Parser parser(
+            std::move((*output_)), 
+            std::move(contentSettings)
+        );
+        parser.assign(dict);
+        parser.render();
+    }else {
+        // ToDo error
     }
 }
 

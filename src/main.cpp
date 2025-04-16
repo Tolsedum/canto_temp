@@ -35,7 +35,7 @@ void testVar(){
     contentSettings.setContent("{{ true }}");
     container.contentInit(
         std::forward<ContentSettings>(contentSettings)
-    );
+    ); 
     
     // canto_temp::parser_logic::Variables var(&list_vars, container);
 
@@ -43,10 +43,9 @@ void testVar(){
 }
 
 /** https://ruden.github.io/twig-docs-ru/templates.html
- * ! Написать о том что выполнил задачу - Тернарный оператор и Оператор нулевой коалесценции
  * ToDo
+ * Включение других шаблонов (include)
  * Наследование шаблонов 
- * Включение других шаблонов
  * Вывод предупреждения для отладки
  * Создать throw объект для обработки ошибок
  * Список стандартных фильтров

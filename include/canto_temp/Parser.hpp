@@ -52,7 +52,7 @@ namespace canto_temp{
         /********************* Instructions *********************/
         void ifInstruction(Tag &tag);
         void setInstruction(Tag &tag);
-
+        void includeInstruction(Tag &tag);
         /********************* END Instructions *********************/
     public:
         Parser(

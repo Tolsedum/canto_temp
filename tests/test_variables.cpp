@@ -136,12 +136,12 @@ void listTest(){
     list_vars["count"] = 1;
     
     std::vector<std::string> loop{
-        // "tests/current",
+        "tests/current",
         // "tests/comments",
         // "tests/getting_var",
         // "tests/filter_var",
         // "tests/if_else",
-        "tests/instructions",
+        // "tests/instructions",
     };
 
     for (auto path : loop){
