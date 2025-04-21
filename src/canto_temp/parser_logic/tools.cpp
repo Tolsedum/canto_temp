@@ -15,99 +15,31 @@ void canto_temp::parser_logic::rtrim(std::string &s) {
     }).base(), s.end());
 }
 
-std::string canto_temp::parser_logic::getParams(
-    std::vector<char> end_params,
-    ContentReader &container
-){
-    std::string tag{};
-    while (container.isNotEnd()){
-        if(container.current() == '{'){
-            //! IS throw Error
-            throw "Not valid signature";
-        }
-        for (auto &&i : end_params){
-            if(container.current() == '}' 
-                || container.current() == i
-            ){
-                goto exit_to;
-            }
-        }
-        tag.append(1, container.current());
-        container.next();
-    }
-exit_to:
-    ltrim(tag);
-    rtrim(tag);
-    return tag;
+bool canto_temp::parser_logic::isEmptyDicVar(nlohmann::json &dict){
+    return dict.is_null()
+        ? true
+        : (dict.is_boolean()
+            ? !dict.get<bool>()
+            : (dict.is_string() 
+                ? std::string(dict).empty()
+                : (dict.is_number() 
+                    ? dict.get<float>() != 0
+                    : dict.empty()
+                )));
 }
 
-std::string canto_temp::parser_logic::getParams(
-    // std::size_t end_tag_pos,
-    char end_params,
-    ContentReader &container
-){
-    std::string tag{};
-    while (container.isNotEnd()){
-        if(container.current() == '{'){
-            //! IS throw Error
-            throw "Not valid signature";
-        }
-        if(container.current() == '}' 
-            || container.current() == end_params // '%'
-        ){
-            break;
-        }
-        tag.append(1, container.current());
-        container.next();
-    }
-    ltrim(tag);
-    rtrim(tag);
-    return tag;
+bool canto_temp::parser_logic::getBoolDicVar(nlohmann::json dic){
+    return !isEmptyDicVar(dic);
 }
 
-bool canto_temp::parser_logic::isNumeric(
-    std::string str
+bool canto_temp::parser_logic::compare(
+    nlohmann::json dic, nlohmann::json dic1, char comp
 ){
-    short count_dot = 0;
-    return !str.empty()
-        && std::find_if(
-            str.begin(),
-            str.end(),
-            [&count_dot](unsigned char c){
-                if(c == '.'){
-                    count_dot++;
-                    if(count_dot > 1){
-                        return true;
-                    }
-                }
-                return !(std::isdigit(c) || c == '.' || c == '-');
-            }
-        ) == str.end();
+    if(comp == '='){
+        return dic == dic1;
+    }else if(comp == '!'){
+        return dic != dic1;
+    }
+    return false;
 }
 
-void canto_temp::parser_logic::skipTo(
-    char c,
-    ContentReader &container
-){
-    while (container.isNotEnd()){
-        if(container.current() == c){
-            container.next();
-            break;
-        }
-        container.next();
-    }
-}
-
-void canto_temp::parser_logic::skipTo(
-    std::string str,
-    ContentReader &container
-){
-    std::size_t pos = container.find(
-        str, container.pos()
-    );
-    if(pos != std::string::npos){
-        container.setPos(pos+1);
-    }else{
-        // ToDo throw
-    }
-}

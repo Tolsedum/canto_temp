@@ -20,32 +20,11 @@ namespace parser_logic{
     // trim from end (in place)
     void rtrim(std::string &s);
 
-    std::string getParams(
-        std::vector<char> end_params,
-        ContentReader &container
-    );
-
-    std::string getParams(
-        // std::size_t end_tag_pos,
-        char end_params,
-        ContentReader &container
-    );
-
-    bool isNumeric(
-        std::string str
-    );
+    bool isEmptyDicVar(nlohmann::json &dict);
+    bool getBoolDicVar(nlohmann::json dic);
+    bool compare(nlohmann::json dic, nlohmann::json dic1, char comp);
     
-    void skipTo(
-        char c,
-        ContentReader &container
-    );
-
-    void skipTo(
-        std::string str,
-        ContentReader &container
-    );
-
-
+    
     template<class T, class Cell>
     void skipBy(
         T& token, Cell by
@@ -69,6 +48,23 @@ namespace parser_logic{
                 ret_var.append(1, token.getCurrent());
             }else {
                 break;
+            }
+            token.next();
+        }
+        return ret_var;
+    }
+
+    template<class T, typename Cell>
+    std::string getStringByCell(
+        T &token, Cell stop_cell
+    ){
+        std::string ret_var{};
+        while (token.getIterCount()){
+            Cell cell = token.getCell();
+            if(stop_cell == cell){
+                break;
+            }else{
+                ret_var.append(1, token.getCurrent());
             }
             token.next();
         }

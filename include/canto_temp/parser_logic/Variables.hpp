@@ -16,28 +16,21 @@ namespace parser_logic{
         std::map<std::string, nlohmann::json>* obj_list_;
         ContentReader container_;
 
-        // std::string eraseByNidle(std::string& str, char nidle);
-        // std::string getVar(std::string tag);
-        // nlohmann::json readVar();
-    
-        // std::string get
-        
-        
-
+    protected:
         void scanOperators(Token &token, nlohmann::json& object_value);
         void scanBitOr(Token &token, nlohmann::json& object_value);
+        
+        
+        
 
-        // void skipSpace(Token& token);
-        
-        // std::string getWord(Token &token);
         std::string scanString(Token &token);
-        std::string scanIdName(Token &token);
-        nlohmann::json scanIdValue(Token &token, nlohmann::json dict);
         nlohmann::json scanNumeric(Token &token);
-        
         nlohmann::json scanVariable(
             Token &token, nlohmann::json dict, 
             Token::Cell before = Token::Cell::unknown
+        );
+        nlohmann::json scanLeftBracket(
+            Token &token, nlohmann::json dict
         );
 
     public:
@@ -51,23 +44,13 @@ namespace parser_logic{
         void addFilterFunctions(
             std::string func_name, std::function<void(nlohmann::json&)>
         );
-       
-        std::string getVar(void);
-
-        nlohmann::json parseVariable(void);
-
-        // nlohmann::json getDicVar(std::string var = "");
-
-        bool getBoolDicVar(nlohmann::json dic);
-        bool isSetDicVar(nlohmann::json &dic);
-        bool isEmptyDicVar(nlohmann::json &dic);
-        bool compare(
-            nlohmann::json dic, nlohmann::json dic1, char comp
-        );
-
 
         void setVar(std::string var_name, nlohmann::json new_var);
+        
+        
 
+        std::string getVar(void);
+        nlohmann::json parseVariable(void);
     };
 
 } // parser_logic

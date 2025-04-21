@@ -44,7 +44,6 @@ void testVar(){
 
 /** https://ruden.github.io/twig-docs-ru/templates.html
  * ToDo
- * Включение других шаблонов (include)
  * Наследование шаблонов 
  * Вывод предупреждения для отладки
  * Создать throw объект для обработки ошибок
@@ -54,6 +53,8 @@ void testVar(){
 
 /**
  * Выполнил:
+ * Перенести getBoolDicVar, isEmptyDicVar и compare в tools
+ * Включение других шаблонов (include)
  * Тернарный оператор
  * Оператор нулевой коалесценции
  * Создание кастомных переменных

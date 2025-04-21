@@ -2,8 +2,7 @@
 #define PARSER_HPP
 
 #include "ContentReader.hpp"
-#include "canto_temp/parser_logic/Variables.hpp"
-#include "canto_temp/parser_logic/Tag.hpp"
+#include "canto_temp/parser_logic/Extends.hpp"
 
 namespace canto_temp{
     class Parser{
@@ -13,6 +12,8 @@ namespace canto_temp{
         ContentReader container_;
         std::shared_ptr<parser_logic::Variables> var_controller_;
         std::map<std::string, nlohmann::json> obj_list_;
+
+        std::shared_ptr<parser_logic::Extends> extends_;
         
         void append(char c);
         void append(std::string str);
@@ -49,7 +50,11 @@ namespace canto_temp{
             std::string& instruction_name, std::string& tag_name, Tag& tag
         );
 
+        void renderExtensions();
+
         /********************* Instructions *********************/
+        void extendsInstruction(Tag &tag);
+        void blockInstruction(Tag &tag);
         void ifInstruction(Tag &tag);
         void setInstruction(Tag &tag);
         void includeInstruction(Tag &tag);
@@ -62,6 +67,11 @@ namespace canto_temp{
         Parser(
             std::string&& output,
             ContentSettings&& contentSettings
+        );
+        Parser(
+            std::string& output,
+            ContentSettings& contentSettings,
+            std::shared_ptr<parser_logic::Extends> extend
         );
         ~Parser(){};
 

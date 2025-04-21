@@ -15,6 +15,15 @@ canto_temp::Parser::Parser(
     contentInit(std::forward<ContentSettings>(contentSettings));
 }
 
+canto_temp::Parser::Parser(
+    std::string& output,
+    ContentSettings& contentSettings,
+    std::shared_ptr<parser_logic::Extends> extend
+) : output_(&output)
+    , extends_(extend){
+    contentInit(std::forward<ContentSettings>(contentSettings));
+}
+
 void canto_temp::Parser::contentInit(
     ContentSettings&& contentSettings
 ){
@@ -26,6 +35,11 @@ void canto_temp::Parser::contentInit(
     var_controller_ = std::make_shared<parser_logic::Variables>(
         &obj_list_, container_, iter_count_
     );
+    if(extends_.use_count() == 0){
+        extends_ = std::make_shared<parser_logic::Extends>(
+            var_controller_
+        );
+    }
 }
 
 void canto_temp::Parser::assign(
@@ -55,8 +69,6 @@ bool canto_temp::Parser::breakLogic(
         parser_logic::skipBy(
             tag, Tag::Cell::instruction_close
         );
-        // parser_logic::skipTo('}', container_);
-        // !
     }else if(
         tag_name == "if"
         && (
@@ -118,12 +130,14 @@ void canto_temp::Parser::render(
                 std::string instruction_name = parser_logic::getWord(
                     tag, Tag::Cell::id
                 );
-                if(input_instruction.empty()){
+                if(input_instruction.empty() 
+                    && instruction_name != "extends"
+                ){
                     input_instruction = instruction_name;
                 }
                 not_skip_append = false;
                 
-                if(breakLogic(
+                if(!instruction_name.empty() && breakLogic(
                     instruction_name, input_instruction, tag
                 )){
                     break;
@@ -168,7 +182,8 @@ void canto_temp::Parser::render(
     if(not_skip_append){
         append(tag.getCurrent());
     }
-    
+    // extends_->render((*output_));
+    renderExtensions();
 }
 
 void canto_temp::Parser::render(
@@ -208,7 +223,11 @@ void canto_temp::Parser::readInstruction(
 ){
     std::string value{};
     if(!instruction.empty()){
-        if(instruction == "if"){
+        if(instruction == "extends"){
+            extendsInstruction(tag);
+        }else if(instruction == "block"){
+            blockInstruction(tag);
+        }else if(instruction == "if"){
             ifInstruction(tag);
         }else if(instruction == "set"){
             setInstruction(tag);
@@ -218,10 +237,74 @@ void canto_temp::Parser::readInstruction(
 
         }else if(instruction == "foreach"){
 
-        }else if(instruction == "extends"){
+        }
+    }
+}
 
-        }else if(instruction == "block"){
+void canto_temp::Parser::renderExtensions(){
+    if(extends_->getRender()){
+        if_exit_ = false;
+        ContentSettings contentSettings;
+        contentSettings.setFileName(extends_->getMainFileName());
+        container_.contentInit(
+            std::forward<ContentSettings>(contentSettings)
+        );
+        iter_count_ = container_.size() - container_.pos();
+        extends_->setSaveBlocks(false);
+        extends_->setRender(false);
+        render();
+        std::cout << (*output_) << std::endl;
+    }
+}
 
+void canto_temp::Parser::extendsInstruction(Tag &tag){
+    if(tag.getCell() == Tag::Cell::space){
+        parser_logic::skipSpace(tag);
+    }
+    
+    std::string extends_name_ = var_controller_->getVar();
+    tag.next();
+    if(extends_name_.empty()){
+        // ToDo Throw Error
+    }
+    extends_->setMainFileName(extends_name_);
+    extends_->setRender(true);
+}
+
+void canto_temp::Parser::blockInstruction(Tag &tag){
+    if(tag.getCell() == Tag::Cell::space){
+        parser_logic::skipSpace(tag);
+    }
+    
+    std::string word = 
+        parser_logic::getWord(tag, Tag::Cell::id);
+
+    parser_logic::skipBy (
+        tag, Tag::Cell::instruction_close
+    );
+    tag.next();
+    if(extends_->getSaveBlocks()){
+        extends_->setBlock(word, tag);
+    }else{
+        parser_logic::Block block = extends_->getBlock(word);
+        std::string content{};
+        if(block.getInsertParentContent()){
+            for (auto &&block : extends_->getBlockContent(word, tag)){
+                content.append(block.getContent());
+            }
+        }
+        if(block.notEmpty()){
+            content.append(block.getContent());
+            auto dict = obj_list_;
+            ContentSettings contentSettings;
+            contentSettings.setContent(content);
+            canto_temp::Parser parser(
+                (*output_),
+                contentSettings,
+                extends_
+            );
+            parser.assign(dict);
+            parser.render();
         }
     }
 }
@@ -231,55 +314,38 @@ void canto_temp::Parser::ifInstruction(Tag &tag){
     int count_if = 0;
     bool skip = false;
     if(
-        var_controller_->getBoolDicVar(var_controller_->parseVariable())
+        parser_logic::getBoolDicVar(var_controller_->parseVariable())
     ){
         render("if");
         skip = true;
     }
     
     if(!if_exit_){
-        // Tag tag(container_);
         while (container_.isNotEnd()){
             Tag::Cell cell = tag.getCell();
             if(cell == Tag::Cell::instruction_open){
                 tag.next();
                 
-                //! std::string str_tag = parser_logic::getParams(
-                //     '%', container_
-                // );
                 parser_logic::skipSpace(tag);
                 std::string instruction_name = 
                     parser_logic::getWord(tag, Tag::Cell::id);
                 parser_logic::skipSpace(tag);
-                // parser_logic::skipTo("%}", container_);
 
-                if(instruction_name == "endif"
-                    // str_tag.find("endif") != std::string::npos
-                ){
+                if(instruction_name == "endif"){
                     if(count_if == 0){
                         break;
                     }else
                         count_if--;
-                }else if(instruction_name == "elseif"
-                    // str_tag.find("elseif") != std::string::npos
-                ){
+                }else if(instruction_name == "elseif"){
                     if(count_if == 0 && !skip){
-                        // std::string instruction_name = 
-                        //     eraseByNidle(str_tag, " ");
-                        // parser_logic::skipTo(' ', container_);
-
-                        if(var_controller_->getBoolDicVar(
+                        if(parser_logic::getBoolDicVar(
                             var_controller_->parseVariable()
-                            // var_controller_->getDicVar(str_tag)
                         )){
                             render("if");
                             skip = true;
                         }
                     }
-                }else if(
-                    instruction_name == "else"
-                    // str_tag.find("else") != std::string::npos
-                ){
+                }else if(instruction_name == "else"){
                     if(count_if == 0 && !skip){
                         if(tag.getCurrent() == '}'){
                             tag.next();
@@ -287,10 +353,7 @@ void canto_temp::Parser::ifInstruction(Tag &tag){
                         render("if");
                         break;
                     }
-                }else if(
-                    instruction_name == "if"
-                    // str_tag.find("if") != std::string::npos
-                ){
+                }else if(instruction_name == "if"){
                     count_if ++;
                 }
             }else{
@@ -350,5 +413,6 @@ void canto_temp::Parser::includeInstruction(Tag &tag){
         // ToDo error
     }
 }
+
 
 /***************************** END Private *****************************/
