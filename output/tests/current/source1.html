@@ -1,3 +1,7 @@
-<div class="1">
-    {% include "tests/current/list_source/source2.html" %}
-</div>
+{% for row in items|batch(3, 'No item', false) %}
+    <tr>
+        {% for user in row %}
+            <td>{{ user }}</td>
+        {% endfor %}
+    </tr>
+{% endfor %}

@@ -47,6 +47,10 @@ canto_temp::parser_logic::Extends::getBlockContent(
             if(word == "block"){
                 parser_logic::skipSpace(tag);
                 word = parser_logic::getWord(tag, Tag::Cell::id);
+                parser_logic::skipBy (
+                    tag, Tag::Cell::instruction_close
+                );
+                tag.next();
                 for (auto &&bl : getBlockContent(word, tag)){
                     ret_value.push_back(bl);
                 }

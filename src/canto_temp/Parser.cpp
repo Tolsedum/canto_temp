@@ -194,7 +194,8 @@ void canto_temp::Parser::render(
 }
 
 void canto_temp::Parser::addFilterFunctions(
-    std::string& func_name, std::function<void(nlohmann::json&)> f
+    std::string& func_name, 
+    std::function<void(nlohmann::json&, nlohmann::json)> f
 ){
     var_controller_->addFilterFunctions(func_name, f);
 }
@@ -234,9 +235,7 @@ void canto_temp::Parser::readInstruction(
         }else if(instruction == "include"){
             includeInstruction(tag);
         }else if(instruction == "for"){
-
-        }else if(instruction == "foreach"){
-
+            forInstruction(tag);
         }
     }
 }
@@ -289,8 +288,8 @@ void canto_temp::Parser::blockInstruction(Tag &tag){
         parser_logic::Block block = extends_->getBlock(word);
         std::string content{};
         if(block.getInsertParentContent()){
-            for (auto &&block : extends_->getBlockContent(word, tag)){
-                content.append(block.getContent());
+            for (auto &&block2 : extends_->getBlockContent(word, tag)){
+                content.append(block2.getContent());
             }
         }
         if(block.notEmpty()){
@@ -382,6 +381,62 @@ void canto_temp::Parser::setInstruction(Tag &tag){
     }else{
         // ToDo throw
     }
+}
+
+void canto_temp::Parser::forFunctionBody(
+    std::string content
+){  
+    ContentSettings contentSettings;
+    contentSettings.setContent(content);
+    canto_temp::Parser parser(
+        (*output_),
+        contentSettings,
+        extends_
+    );
+    parser.assign(obj_list_);
+    parser.render();
+}
+
+void canto_temp::Parser::forInstruction(Tag &tag){
+    parser_logic::skipSpace(tag);
+
+    std::string key_var= parser_logic::getWord(tag, Tag::Cell::id);
+    std::string value_var;
+    std::size_t pos = key_var.find(',');
+    if(pos != std::string::npos){
+        value_var = key_var.substr(pos+1);
+        key_var.erase(pos, key_var.size()-1);
+    }else{
+        value_var = key_var;
+        key_var.clear();
+    }
+    nlohmann::json data = var_controller_->parseVariable();
+    
+    tag.next();
+    
+    std::string content = parser_logic::scanContentByCloseTag(
+        tag, "for", Tag::Cell::id
+    );
+    
+    if(data.is_string()){
+        for (char iter : data.get<std::string>()){
+            if(!value_var.empty()){
+                obj_list_[value_var] = std::string{iter};
+            }
+            forFunctionBody(content);
+        }
+    }else{
+        for (auto &&iter : data.items()){
+            if(!key_var.empty()){
+                obj_list_[key_var] = iter.key();
+            }
+            if(!value_var.empty()){
+                obj_list_[value_var] = iter.value();
+            }
+            forFunctionBody(content);
+        }
+    }
+    tag.next();
 }
 
 void canto_temp::Parser::includeInstruction(Tag &tag){

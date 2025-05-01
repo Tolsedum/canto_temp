@@ -31,6 +31,9 @@ void canto_temp::Token::init(void){
             if (next_ == 's') {
                 cell_ = Cell::is_equal;
                 is_operator_ = true;
+            }else if(next_ == 'n'){
+                cell_ = Cell::in_equal;
+                is_operator_ = true;
             }else{
                 next_init_ = true;
                 cell_ = Cell::id;
@@ -231,6 +234,10 @@ void canto_temp::Token::init(void){
             break;
         }
         case '\"':{
+            cell_ = Cell::string;
+            break;
+        }
+        case '\'':{
             cell_ = Cell::string;
             break;
         }

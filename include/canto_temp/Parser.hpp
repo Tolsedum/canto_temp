@@ -50,6 +50,7 @@ namespace canto_temp{
             std::string& instruction_name, std::string& tag_name, Tag& tag
         );
 
+        void forFunctionBody(std::string content);
         void renderExtensions();
 
         /********************* Instructions *********************/
@@ -58,6 +59,7 @@ namespace canto_temp{
         void ifInstruction(Tag &tag);
         void setInstruction(Tag &tag);
         void includeInstruction(Tag &tag);
+        void forInstruction(Tag &tag);
         /********************* END Instructions *********************/
     public:
         Parser(
@@ -86,7 +88,8 @@ namespace canto_temp{
         );
 
         void addFilterFunctions(
-            std::string& func_name, std::function<void(nlohmann::json&)>
+            std::string& func_name, 
+            std::function<void(nlohmann::json&, nlohmann::json)>
         );
     };
 };

@@ -11,7 +11,7 @@ canto_temp::parser_logic::Variables::Variables(
     iter_count_ = &iter_count;
     pre_cell_ = Token::Cell::unknown;
     count_read_tag_ = 0;
-    addFilterFunctions("upper", [](nlohmann::json& dict){
+    addFilterFunctions("upper", [](nlohmann::json& dict, nlohmann::json){
         if(dict.is_string()){
             std::string str = dict;
             std::transform(
@@ -23,7 +23,7 @@ canto_temp::parser_logic::Variables::Variables(
             dict = str;
         }
     });
-    addFilterFunctions("lower", [](nlohmann::json& dict){
+    addFilterFunctions("lower", [](nlohmann::json& dict, nlohmann::json){
         if(dict.is_string()){
             std::string str = dict;
             std::transform(
@@ -35,11 +35,64 @@ canto_temp::parser_logic::Variables::Variables(
             dict = str;
         }
     });
+    addFilterFunctions("abs", [](nlohmann::json& dict, nlohmann::json){
+        if(dict.is_number_unsigned()){
+            dict = abs((unsigned)dict);
+        }else if(dict.is_number_integer()){
+            dict = abs((int)dict);
+        }else if(dict.is_number_float()){
+            dict = abs((float)dict);
+        }
+    });
+    addFilterFunctions("batch", [](nlohmann::json& dict, nlohmann::json params){
+        if(dict.is_array()){
+            nlohmann::json tmp_dict;
+            std::size_t iter = 0;
+            int iter_key = 0;
+            int block_iter = 0;
+            int count_in_block = params[0];
+            std::string default_value = params[1];
+            bool flash_iter_key = true;
+            if(params.size() == 3 
+                && !(bool)params[2]
+            ){
+                flash_iter_key = false;
+            }
+            while (true){
+                if(count_in_block > 0){
+                    for (int i = 0; i < count_in_block; i++){
+                        if(iter < dict.size()){
+                            tmp_dict[block_iter][iter_key] = 
+                                dict[iter];
+                        }else{
+                            tmp_dict[block_iter][iter_key] = 
+                                default_value;
+                        }
+                        iter++;
+                        iter_key++;
+                    }
+                    if(!flash_iter_key){
+                        iter_key = 0;
+                    }
+                }else {
+                    break;
+                }
+                
+                block_iter++;
+                std::cout << "iter: " << iter << " " << dict.size() << std::endl;
+                if(dict.size() <= iter){
+                    break;
+                }
+            }
+            dict = tmp_dict;
+        }
+    });
 };
 
 
 void canto_temp::parser_logic::Variables::addFilterFunctions(
-    std::string func_name, std::function<void(nlohmann::json&)> func
+    std::string func_name, 
+    std::function<void(nlohmann::json&, nlohmann::json)> func
 ){
     if(func_.find(func_name) == func_.end()){
         func_[func_name] = func;
@@ -63,9 +116,21 @@ void canto_temp::parser_logic::Variables::scanBitOr(
     );
     
     if(!name_function.empty()){
+        nlohmann::json params;
+        if(token.getCell() == Token::Cell::left_paren){
+            token.next();
+            params = scanParams(token);
+            std::cout << params.dump() << std::endl;
+            parser_logic::skipSpace(token);
+            if(token.getCell() == Token::Cell::instruction_close){
+                // token.next();
+            }
+        }
+        
         auto f = func_.find(name_function);
         if(f != func_.end()){
-            f->second(object_value);
+            f->second(object_value, params);
+            std::cout << object_value.dump() << std::endl;
         }else{
             // ToDo throw
             
@@ -103,6 +168,8 @@ void canto_temp::parser_logic::Variables::scanOperators(
             left_value = !left_value.is_null();
         }else if(word == "empty"){
             left_value = parser_logic::isEmptyDicVar(left_value);
+        }else{
+
         }
         
     }else if(cell == Token::Cell::not_equal
@@ -134,6 +201,9 @@ void canto_temp::parser_logic::Variables::scanOperators(
                 left_value, right_value, comp
             );
         }
+    }else if(cell == Token::Cell::in_equal){
+        parser_logic::skipSpace(token);
+        left_value = scanVariable(token, left_value);
     }
 
     if(is_not && left_value.is_boolean()){
@@ -141,7 +211,9 @@ void canto_temp::parser_logic::Variables::scanOperators(
     }
 }
 
-std::string canto_temp::parser_logic::Variables::scanString(Token &token){
+std::string canto_temp::parser_logic::Variables::scanString(
+    Token &token
+){
     std::string ret_value{};
     Token::Cell cell = token.getCell();
     if(cell == Token::Cell::string){
@@ -163,7 +235,48 @@ std::string canto_temp::parser_logic::Variables::scanString(Token &token){
     return ret_value;
 }
 
-nlohmann::json canto_temp::parser_logic::Variables::scanNumeric(Token &token){
+nlohmann::json canto_temp::parser_logic::Variables::scanParams(
+    Token &token
+){
+    nlohmann::json ret_value{};
+    int iter = 0;
+    while (token.getIterCount()){
+        Token::Cell cell = token.getCell();
+        if(cell == Token::Cell::eof){
+            break; 
+        }else if(cell == Token::Cell::right_paren){
+            token.next();
+            break; 
+        }else if(cell == Token::Cell::id
+            || cell == Token::Cell::string
+            || cell == Token::Cell::number
+        ){
+            ret_value[iter] = scanVariable(token, (*obj_list_));
+            iter++;
+            continue;
+        }else if(cell == Token::Cell::left_paren){
+            token.next();
+            ret_value[iter] = scanParams(token);
+        }else if(cell == Token::Cell::comma){
+            token.next();
+            parser_logic::skipSpace(token);
+            continue;
+        }else if(
+            cell == Token::Cell::instruction_close 
+            || cell == Token::Cell::instruction_open 
+            || cell == Token::Cell::var_close
+        ){
+            // ToDo errors
+            break;
+        }
+        token.next();
+    }
+    return ret_value;
+}
+
+nlohmann::json canto_temp::parser_logic::Variables::scanNumeric(
+    Token &token
+){
     std::string ret_value{};
     bool is_float = false;
     while (token.getIterCount()){
@@ -225,7 +338,10 @@ nlohmann::json canto_temp::parser_logic::Variables::scanVariable(
     while (token.getIterCount()){
         Token::Cell cell = token.getCell();
         pre_cell_ = cell;
-        if(before != Token::Cell::unknown && before == cell){
+        if(
+            (before != Token::Cell::unknown && before == cell)
+            || cell == Token::Cell::eof
+        ){
             break;
         }
         if(cell == Token::Cell::var_open){
@@ -259,11 +375,13 @@ nlohmann::json canto_temp::parser_logic::Variables::scanVariable(
             }
         }else if(cell == Token::Cell::number){
             object_value = scanNumeric(token);
+            continue;
         }else if(cell == Token::Cell::bit_ore){
             scanBitOr(token, object_value);
             continue;
         }else if(cell == Token::Cell::comma){
             // ToDo token.getNext()
+            break;
         }else if(cell == Token::Cell::instruction_close){
             // ToDo error
             break;
@@ -279,7 +397,9 @@ nlohmann::json canto_temp::parser_logic::Variables::scanVariable(
                 break;
             }
         }
-        token.next();
+        if(token.getCell() != Token::Cell::right_paren){
+            token.next();
+        }
     }
     
     return object_value;

@@ -134,10 +134,15 @@ void listTest(){
     par["comments1"] = "d";
     list_vars["content"] = par;
     list_vars["count"] = 1;
+
+    list_vars["items"] = {
+        // {"user1","param1"}, {"user2","param2"}, {"user3","param3"}
+        "user1", "user2", "user3", "user4", "user5", "user6", "user7"
+    };
     
     std::vector<std::string> loop{
-        // "tests/current",
-        "tests/extends",
+        "tests/current",
+        // "tests/extends",
         // "tests/comments",
         // "tests/getting_var",
         // "tests/filter_var",

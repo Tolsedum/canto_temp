@@ -73,9 +73,66 @@ namespace parser_logic{
 
     template<class T>
     void skipSpace(T& token){
-        while (token.getCell() == T::Cell::space){
+        if(token.getCell() == T::Cell::space){
+            while (token.getCell() == T::Cell::space){
+                token.next();
+            }
+        }
+    }
+
+    template<class T, class Cell>
+    std::string scanContentByCloseTag(T& token, std::string tag_name, Cell){
+        int open_teg = 1;
+        std::string ret_value{};
+        while (token.getIterCount()){
+            Cell cell = token.getCell();
+            if(cell == Cell::eof){
+                break;
+            }else if(cell == Cell::comment_open){
+                skipBy (
+                    token, Cell::comment_close
+                );
+                token.next();
+                continue;
+            }else if(cell == Cell::var_open){
+                token.next();
+                ret_value.append(
+                    "{{ " 
+                    + getStringByCell(
+                        token, Cell::var_close)
+                    + " }}"
+                );
+                token.next();
+                continue;
+            }else if(cell == Cell::instruction_open){
+                token.next();
+                skipSpace(token);
+                std::string name_instruction = getWord(
+                    token, Cell::id
+                );
+                if(name_instruction == tag_name){
+                    open_teg++;
+                }else if(name_instruction == "end" + tag_name){
+                    open_teg--;
+                }
+                if(open_teg == 0){
+                    token.next();
+                    break;
+                }
+                ret_value.append(
+                    "{% " 
+                    + name_instruction 
+                    + getStringByCell(
+                        token, Cell::instruction_close)
+                    + " %}"
+                );
+                token.next();
+                continue;
+            }
+            ret_value.append(1, token.getCurrent());
             token.next();
         }
+        return ret_value;
     }
 }// parser_logic
 }// canto_temp

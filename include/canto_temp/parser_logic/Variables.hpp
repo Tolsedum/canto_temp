@@ -11,8 +11,9 @@ namespace parser_logic{
         int count_read_tag_, *iter_count_;
         Token::Cell pre_cell_;
 
-        std::map<std::string, std::function<void(nlohmann::json&)>> 
-            func_;
+        std::map<std::string, std::function
+            <void(nlohmann::json& value, nlohmann::json params)>
+        > func_;
         std::map<std::string, nlohmann::json>* obj_list_;
         ContentReader container_;
 
@@ -20,10 +21,8 @@ namespace parser_logic{
         void scanOperators(Token &token, nlohmann::json& object_value);
         void scanBitOr(Token &token, nlohmann::json& object_value);
         
-        
-        
-
         std::string scanString(Token &token);
+        nlohmann::json scanParams(Token &token);
         nlohmann::json scanNumeric(Token &token);
         nlohmann::json scanVariable(
             Token &token, nlohmann::json dict, 
@@ -42,13 +41,12 @@ namespace parser_logic{
         ~Variables(){};
 
         void addFilterFunctions(
-            std::string func_name, std::function<void(nlohmann::json&)>
+            std::string func_name, 
+            std::function<void(nlohmann::json&, nlohmann::json)>
         );
 
         void setVar(std::string var_name, nlohmann::json new_var);
         
-        
-
         std::string getVar(void);
         nlohmann::json parseVariable(void);
     };

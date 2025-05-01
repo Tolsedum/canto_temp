@@ -49,6 +49,7 @@ namespace canto_temp{
             var_close,           // }}
             equal,               // ==
             is_equal,            // is 
+            in_equal,            // in
             not_equal,           // !=
             bit_not_equal,       // !
             greater_than,        // >
