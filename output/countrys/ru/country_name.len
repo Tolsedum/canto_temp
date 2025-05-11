@@ -1,0 +1,717 @@
+code: "AD"
+len: "Андорра"
+
+code: "AE"
+len: "Объединенные Арабские Эмираты"
+
+code: "AF"
+len: "Афганистан"
+
+code: "AG"
+len: "Антигуа и Барбуда"
+
+code: "AI"
+len: "Ангилья о. (GB)"
+
+code: "AL"
+len: "Албания"
+
+code: "AM"
+len: "Армения"
+
+code: "AN"
+len: "Антильские о-ва (NL)"
+
+code: "AO"
+len: "Ангола"
+
+code: "AQ"
+len: "Антарктика"
+
+code: "AR"
+len: "Аргентина"
+
+code: "AS"
+len: "Восточное Самоа (US)"
+
+code: "AT"
+len: "Австрия"
+
+code: "AU"
+len: "Австралия"
+
+code: "AW"
+len: "Аруба"
+
+code: "AZ"
+len: "Азербайджан"
+
+code: "BA"
+len: "Босния и Герцеговина"
+
+code: "BB"
+len: "Барбадос"
+
+code: "BD"
+len: "Бангладеш"
+
+code: "BE"
+len: "Бельгия"
+
+code: "BF"
+len: "Буркина-Фасо"
+
+code: "BG"
+len: "Болгария"
+
+code: "BH"
+len: "Бахрейн"
+
+code: "BI"
+len: "Бурунди"
+
+code: "BJ"
+len: "Бенин"
+
+code: "BM"
+len: "Бермуды"
+
+code: "BN"
+len: "Бруней Дарассалам"
+
+code: "BO"
+len: "Боливия"
+
+code: "BR"
+len: "Бразилия"
+
+code: "BS"
+len: "Багамы"
+
+code: "BT"
+len: "Бутан"
+
+code: "BV"
+len: "Бове о. (NO)"
+
+code: "BW"
+len: "Ботсвана"
+
+code: "BY"
+len: "Беларусь"
+
+code: "BZ"
+len: "Белиз"
+
+code: "CA"
+len: "Канада"
+
+code: "CC"
+len: "Кокосовые (Киилинг) о-ва (AU)"
+
+code: "CD"
+len: "Демократическая Республика Конго"
+
+code: "CF"
+len: "Центрально-африканская Республика"
+
+code: "CG"
+len: "Конго"
+
+code: "CH"
+len: "Швейцария"
+
+code: "CI"
+len: "Кот-д'Ивуар"
+
+code: "CK"
+len: "Кука о-ва (NZ)"
+
+code: "CL"
+len: "Чили"
+
+code: "CM"
+len: "Камерун"
+
+code: "CN"
+len: "Китай"
+
+code: "CO"
+len: "Колумбия"
+
+code: "CR"
+len: "Коста-Рика"
+
+code: "CU"
+len: "Куба"
+
+code: "CV"
+len: "Кабо-Верде"
+
+code: "CX"
+len: "Рождества о. (AU)"
+
+code: "CY"
+len: "Кипр"
+
+code: "CZ"
+len: "Чехия"
+
+code: "DE"
+len: "Германия"
+
+code: "DJ"
+len: "Джибути"
+
+code: "DK"
+len: "Дания"
+
+code: "DM"
+len: "Доминика"
+
+code: "DO"
+len: "Доминиканская Республика"
+
+code: "DZ"
+len: "Алжир"
+
+code: "EC"
+len: "Эквадор"
+
+code: "EE"
+len: "Эстония"
+
+code: "EG"
+len: "Египет"
+
+code: "EH"
+len: "Западная Сахара"
+
+code: "ER"
+len: "Эритрия"
+
+code: "ES"
+len: "Испания"
+
+code: "ET"
+len: "Эфиопия"
+
+code: "FI"
+len: "Финляндия"
+
+code: "FJ"
+len: "Фиджи"
+
+code: "FK"
+len: "Фолклендские (Мальвинские) о-ва (GB/AR)"
+
+code: "FM"
+len: "Микронезия (US)"
+
+code: "FO"
+len: "Фарерские о-ва (DK)"
+
+code: "FR"
+len: "Франция"
+
+code: "GA"
+len: "Габон"
+
+code: "GB"
+len: "Великобритания"
+
+code: "GD"
+len: "Гренада"
+
+code: "GE"
+len: "Грузия"
+
+code: "GF"
+len: "Французская Гвиана (FR)"
+
+code: "GH"
+len: "Гана"
+
+code: "GI"
+len: "Гибралтар"
+
+code: "GL"
+len: "Гренландия (DK)"
+
+code: "GM"
+len: "Гамбия"
+
+code: "GN"
+len: "Гвинея"
+
+code: "GP"
+len: "Гваделупа"
+
+code: "GQ"
+len: "Экваториальная Гвинея"
+
+code: "GR"
+len: "Греция"
+
+code: "GS"
+len: "Южная Георгия и Южные Сандвичевы о-ва"
+
+code: "GT"
+len: "Гватемала"
+
+code: "GU"
+len: "Гуам"
+
+code: "GW"
+len: "Гвинея-Бисау"
+
+code: "GY"
+len: "Гайана"
+
+code: "HK"
+len: "Гонконг (CN)"
+
+code: "HM"
+len: "Херд и Макдональд о-ва (AU)"
+
+code: "HN"
+len: "Гондурас"
+
+code: "HR"
+len: "Хорватия"
+
+code: "HT"
+len: "Гаити"
+
+code: "HU"
+len: "Венгрия"
+
+code: "ID"
+len: "Индонезия"
+
+code: "IE"
+len: "Ирландия"
+
+code: "IL"
+len: "Израиль"
+
+code: "IN"
+len: "Индия"
+
+code: "IO"
+len: "? (GB)"
+
+code: "IQ"
+len: "Ирак"
+
+code: "IR"
+len: "Иран"
+
+code: "IS"
+len: "Исландия"
+
+code: "IT"
+len: "Италия"
+
+code: "JM"
+len: "Ямайка"
+
+code: "JO"
+len: "Иордания"
+
+code: "JP"
+len: "Япония"
+
+code: "KE"
+len: "Кения"
+
+code: "KG"
+len: "Киргизстан"
+
+code: "KH"
+len: "Камбоджа"
+
+code: "KI"
+len: "Кирибати"
+
+code: "KM"
+len: "Коморские о-ва"
+
+code: "KN"
+len: "Сент-Кристофер и Невис"
+
+code: "KP"
+len: "Северная Корея (КНДР)"
+
+code: "KR"
+len: "Южная Корея (Республика Корея)"
+
+code: "KW"
+len: "Кувейт"
+
+code: "KY"
+len: "Каймановы о-ва (GB)"
+
+code: "KZ"
+len: "Казахстан"
+
+code: "LA"
+len: "Лаос"
+
+code: "LB"
+len: "Ливан"
+
+code: "LC"
+len: "Сент-Люсия"
+
+code: "LI"
+len: "Лихтенштейн"
+
+code: "LK"
+len: "Шри-Ланка"
+
+code: "LR"
+len: "Либерия"
+
+code: "LS"
+len: "Лесото"
+
+code: "LT"
+len: "Литва"
+
+code: "LU"
+len: "Люксембург"
+
+code: "LV"
+len: "Латвия"
+
+code: "LY"
+len: "Ливия"
+
+code: "MA"
+len: "Марокко"
+
+code: "MC"
+len: "Монако"
+
+code: "MD"
+len: "Молдова"
+
+code: "MG"
+len: "Мадагаскар"
+
+code: "MH"
+len: "Маршалловы о-ва"
+
+code: "MK"
+len: "Македония"
+
+code: "ML"
+len: "Мали"
+
+code: "MM"
+len: "Мьянма"
+
+code: "MN"
+len: "Монголия"
+
+code: "MO"
+len: "Макао (PT)"
+
+code: "MP"
+len: "Северные Марианские о-ва (US)"
+
+code: "MQ"
+len: "Мартиника"
+
+code: "MR"
+len: "Мавритания"
+
+code: "MS"
+len: "Монсеррат о. (GB)"
+
+code: "MT"
+len: "Мальта"
+
+code: "MU"
+len: "Маврикий"
+
+code: "MV"
+len: "Мальдивы"
+
+code: "MW"
+len: "Малави"
+
+code: "MX"
+len: "Мексика"
+
+code: "MY"
+len: "Малайзия"
+
+code: "MZ"
+len: "Мозамбик"
+
+code: "NA"
+len: "Намибия"
+
+code: "NC"
+len: "Новая Каледония о. (FR)"
+
+code: "NE"
+len: "Нигер"
+
+code: "NF"
+len: "Норфолк о. (AU)"
+
+code: "NG"
+len: "Нигерия"
+
+code: "NI"
+len: "Никарагуа"
+
+code: "NL"
+len: "Нидерланды"
+
+code: "NO"
+len: "Норвегия"
+
+code: "NP"
+len: "Непал"
+
+code: "NR"
+len: "Науру"
+
+code: "NU"
+len: "Ниуэ о. (NZ)"
+
+code: "NZ"
+len: "Новая Зеландия"
+
+code: "OM"
+len: "Оман"
+
+code: "PA"
+len: "Панама"
+
+code: "PE"
+len: "Перу"
+
+code: "PF"
+len: "Французская Полинезия"
+
+code: "PG"
+len: "Папуа-Новая Гвинея"
+
+code: "PH"
+len: "Филиппины"
+
+code: "PK"
+len: "Пакистан"
+
+code: "PL"
+len: "Польша"
+
+code: "PM"
+len: "Сен-Пьер и Микелон (FR)"
+
+code: "PN"
+len: "Питкэрн о-ва (GB)"
+
+code: "PR"
+len: "Пуэрто-Рико (US)"
+
+code: "PS"
+len: "Палестинская автономия"
+
+code: "PT"
+len: "Португалия"
+
+code: "PW"
+len: "Палау (US)"
+
+code: "PY"
+len: "Парагвай"
+
+code: "QA"
+len: "Катар"
+
+code: "RE"
+len: "Реюньон о. (FR)"
+
+code: "RO"
+len: "Румыния"
+
+code: "RU"
+len: "Россия"
+
+code: "RW"
+len: "Руанда"
+
+code: "SA"
+len: "Саудовская Аравия"
+
+code: "SB"
+len: "Соломоновы о-ва"
+
+code: "SC"
+len: "Сейшелы"
+
+code: "SD"
+len: "Судан"
+
+code: "SE"
+len: "Швеция"
+
+code: "SG"
+len: "Сингапур"
+
+code: "SH"
+len: "Святой Елены о. (GB)"
+
+code: "SI"
+len: "Словения"
+
+code: "SJ"
+len: "Свалбард и Ян Мейен о-ва (NO)"
+
+code: "SK"
+len: "Словакия"
+
+code: "SL"
+len: "Сьерра-Леоне"
+
+code: "SM"
+len: "Сан Марино"
+
+code: "SN"
+len: "Сенегал"
+
+code: "SO"
+len: "Сомали"
+
+code: "SR"
+len: "Суринам"
+
+code: "ST"
+len: "Сан-Томе и Принсипи"
+
+code: "SV"
+len: "Сальвадор"
+
+code: "SY"
+len: "Сирия"
+
+code: "SZ"
+len: "Свазиленд"
+
+code: "TC"
+len: "Теркс и Кайкос о-ва (GB)"
+
+code: "TD"
+len: "Чад"
+
+code: "TF"
+len: "? (FR)"
+
+code: "TG"
+len: "Того"
+
+code: "TH"
+len: "Таиланд"
+
+code: "TJ"
+len: "Таджикистан"
+
+code: "TK"
+len: "Токелау о-ва (NZ)"
+
+code: "TM"
+len: "Туркменистан"
+
+code: "TN"
+len: "Тунис"
+
+code: "TO"
+len: "Тонга"
+
+code: "TP"
+len: "Восточный Тимор"
+
+code: "TR"
+len: "Турция"
+
+code: "TT"
+len: "Тринидад и Тобаго"
+
+code: "TV"
+len: "Тувалу"
+
+code: "TW"
+len: "Тайвань"
+
+code: "TZ"
+len: "Танзания"
+
+code: "UA"
+len: "Украина"
+
+code: "UG"
+len: "Уганда"
+
+code: "UM"
+len: "? (US)"
+
+code: "US"
+len: "Соединенные Штаты Америки"
+
+code: "UY"
+len: "Уругвай"
+
+code: "UZ"
+len: "Узбекистан"
+
+code: "VA"
+len: "Ватикан"
+
+code: "VC"
+len: "Сен-Винсент и Гренадины"
+
+code: "VE"
+len: "Венесуэла"
+
+code: "VG"
+len: "Виргинские о-ва (GB)"
+
+code: "VI"
+len: "Виргинские о-ва (US)"
+
+code: "VN"
+len: "Вьетнам"
+
+code: "VU"
+len: "Вануату"
+
+code: "WF"
+len: "Уоллис и Футуна о-ва (FR)"
+
+code: "WS"
+len: "Самоа"
+
+code: "YE"
+len: "Йемен"
+
+code: "YT"
+len: "Майотта о. (KM)"
+
+code: "YU"
+len: "Югославия"
+
+code: "ZA"
+len: "Южная Африка"
+
+code: "ZM"
+len: "Замбия"
+
+code: "ZW"
+len: "Зимбабве"
+

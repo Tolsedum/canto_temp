@@ -24,7 +24,7 @@ void canto_temp::Token::init(void){
       || ((int)current_ >= 97 &&  (int)current_ <= 122)
       || (int)current_ == 95
     ){
-        if(current_ == 'i'){
+        if(current_ == 'i' && pre_ == ' '){
             if(!next_init_){
                 next_ = localNext();
             }
@@ -252,5 +252,5 @@ void canto_temp::Token::init(void){
         } 
     }
   }
-    
+    pre_ = current_;
 }

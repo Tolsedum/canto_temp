@@ -1,0 +1,483 @@
+code: "AED"
+len: "Дирхам (ОАЭ)"
+
+code: "AFN"
+len: "Афгани"
+
+code: "ALL"
+len: "Лек"
+
+code: "AMD"
+len: "Армянский драм"
+
+code: "ANG"
+len: "Нидерландский антильский гульден"
+
+code: "AOA"
+len: "Кванза"
+
+code: "ARS"
+len: "Аргентинское песо"
+
+code: "AUD"
+len: "Австралийский доллар"
+
+code: "AWG"
+len: "Арубанский флорин"
+
+code: "AZN"
+len: "Азербайджанский манат"
+
+code: "BAM"
+len: "Конвертируемая марка"
+
+code: "BBD"
+len: "Барбадосский доллар"
+
+code: "BDT"
+len: "Така"
+
+code: "BGN"
+len: "Болгарский лев"
+
+code: "BHD"
+len: "Бахрейнский динар"
+
+code: "BIF"
+len: "Бурундийский франк"
+
+code: "BMD"
+len: "Бермудский доллар"
+
+code: "BND"
+len: "Брунейский доллар"
+
+code: "BOB"
+len: "Боливиано"
+
+code: "BRL"
+len: "Бразильский реал"
+
+code: "BSD"
+len: "Багамский доллар"
+
+code: "BTN"
+len: "Нгултрум"
+
+code: "BWP"
+len: "Пула"
+
+code: "BYN"
+len: "Белорусский рубль"
+
+code: "BZD"
+len: "Белизский доллар"
+
+code: "CAD"
+len: "Канадский доллар"
+
+code: "CDF"
+len: "Конголезский франк"
+
+code: "CHF"
+len: "Швейцарский франк"
+
+code: "CLP"
+len: "Чилийское песо"
+
+code: "CNY"
+len: "Юань"
+
+code: "COP"
+len: "Колумбийское песо"
+
+code: "COU"
+len: "Единица реальной стоимости"
+
+code: "CRC"
+len: "Коста-риканский колон"
+
+code: "CUC"
+len: "Конвертируемое песо"
+
+code: "CUP"
+len: "Кубинское песо"
+
+code: "CVE"
+len: "Эскудо Кабо-Верде"
+
+code: "CZK"
+len: "Чешская крона"
+
+code: "DJF"
+len: "Франк Джибути"
+
+code: "DKK"
+len: "Датская крона"
+
+code: "DOP"
+len: "Доминиканское песо"
+
+code: "DZD"
+len: "Алжирский динар"
+
+code: "EGP"
+len: "Египетский фунт"
+
+code: "ERN"
+len: "Накфа"
+
+code: "ETB"
+len: "Эфиопский быр"
+
+code: "EUR"
+len: "Евро"
+
+code: "FJD"
+len: "Доллар Фиджи"
+
+code: "FKP"
+len: "Фунт Фолклендских островов"
+
+code: "GBP"
+len: "Фунт стерлингов"
+
+code: "GEL"
+len: "Лари"
+
+code: "GHS"
+len: "Ганский седи"
+
+code: "GIP"
+len: "Гибралтарский фунт"
+
+code: "GMD"
+len: "Даласи"
+
+code: "GNF"
+len: "Гвинейский франк"
+
+code: "GTQ"
+len: "Кетсаль"
+
+code: "GYD"
+len: "Гайанский доллар"
+
+code: "HKD"
+len: "Гонконгский доллар"
+
+code: "HNL"
+len: "Лемпира"
+
+code: "HRK"
+len: "Хорватская куна"
+
+code: "HTG"
+len: "Гурд"
+
+code: "HUF"
+len: "Форинт"
+
+code: "IDR"
+len: "Рупия"
+
+code: "ILS"
+len: "Новый израильский шекель"
+
+code: "INR"
+len: "Индийская рупия"
+
+code: "IQD"
+len: "Иракский динар"
+
+code: "IRR"
+len: "Иранский риал"
+
+code: "ISK"
+len: "Исландская крона"
+
+code: "JMD"
+len: "Ямайский доллар"
+
+code: "JOD"
+len: "Иорданский динар"
+
+code: "JPY"
+len: "Иена"
+
+code: "KES"
+len: "Кенийский шиллинг"
+
+code: "KGS"
+len: "Сом"
+
+code: "KHR"
+len: "Риель"
+
+code: "KMF"
+len: "Франк Комор"
+
+code: "KPW"
+len: "Северокорейская вона"
+
+code: "KRW"
+len: "Вона"
+
+code: "KWD"
+len: "Кувейтский динар"
+
+code: "KYD"
+len: "Доллар Островов Кайман"
+
+code: "KZT"
+len: "Тенге"
+
+code: "LAK"
+len: "Кип"
+
+code: "LBP"
+len: "Ливанский фунт"
+
+code: "LKR"
+len: "Шри-Ланкийская рупия"
+
+code: "LRD"
+len: "Либерийский доллар"
+
+code: "LSL"
+len: "Лоти"
+
+code: "LTL"
+len: "Литовский лит"
+
+code: "LYD"
+len: "Ливийский динар"
+
+code: "MAD"
+len: "Марокканский дирхам"
+
+code: "MDL"
+len: "Молдавский лей"
+
+code: "MGA"
+len: "Малагасийский ариари"
+
+code: "MKD"
+len: "Денар"
+
+code: "MMK"
+len: "Кьят"
+
+code: "MNT"
+len: "Тугрик"
+
+code: "MOP"
+len: "Патака"
+
+code: "MRO"
+len: "Угия"
+
+code: "MUR"
+len: "Маврикийская рупия"
+
+code: "MVR"
+len: "Руфия"
+
+code: "MWK"
+len: "Квача"
+
+code: "MXN"
+len: "Мексиканское песо"
+
+code: "MYR"
+len: "Малайзийский ринггит"
+
+code: "MZN"
+len: "Мозамбикский метикал"
+
+code: "NAD"
+len: "Доллар Намибии"
+
+code: "NGN"
+len: "Найра"
+
+code: "NIO"
+len: "Золотая кордоба"
+
+code: "NOK"
+len: "Норвежская крона"
+
+code: "NPR"
+len: "Непальская рупия"
+
+code: "NZD"
+len: "Новозеландский доллар"
+
+code: "OMR"
+len: "Оманский риал"
+
+code: "PAB"
+len: "Бальбоа"
+
+code: "PEN"
+len: "Новый соль"
+
+code: "PGK"
+len: "Кина"
+
+code: "PHP"
+len: "Филиппинское песо"
+
+code: "PKR"
+len: "Пакистанская рупия"
+
+code: "PLN"
+len: "Злотый"
+
+code: "PYG"
+len: "Гуарани"
+
+code: "QAR"
+len: "Катарский риал"
+
+code: "RON"
+len: "Новый румынский лей"
+
+code: "RSD"
+len: "Сербский динар"
+
+code: "RUB"
+len: "Российский рубль"
+
+code: "RWF"
+len: "Франк Руанды"
+
+code: "SAR"
+len: "Саудовский риял"
+
+code: "SBD"
+len: "Доллар Соломоновых Островов"
+
+code: "SCR"
+len: "Сейшельская рупия"
+
+code: "SDG"
+len: "Суданский фунт"
+
+code: "SEK"
+len: "Шведская крона"
+
+code: "SGD"
+len: "Сингапурский доллар"
+
+code: "SHP"
+len: "Фунт Святой Елены"
+
+code: "SLL"
+len: "Леоне"
+
+code: "SOS"
+len: "Сомалийский шиллинг"
+
+code: "SRD"
+len: "Суринамский доллар"
+
+code: "SSP"
+len: "Южносуданский фунт"
+
+code: "STD"
+len: "Добра"
+
+code: "SVC"
+len: "Сальвадорский колон"
+
+code: "SYP"
+len: "Сирийский фунт"
+
+code: "SZL"
+len: "Лилангени"
+
+code: "THB"
+len: "Бат"
+
+code: "TJS"
+len: "Сомони"
+
+code: "TMT"
+len: "Новый туркменский манат"
+
+code: "TND"
+len: "Тунисский динар"
+
+code: "TOP"
+len: "Паанга"
+
+code: "TRY"
+len: "Турецкая лира"
+
+code: "TTD"
+len: "Доллар Тринидада и Тобаго"
+
+code: "TWD"
+len: "Новый тайваньский доллар"
+
+code: "TZS"
+len: "Танзанийский шиллинг"
+
+code: "UAH"
+len: "Гривна"
+
+code: "UGX"
+len: "Угандийский шиллинг"
+
+code: "USD"
+len: "Доллар США"
+
+code: "UYI"
+len: "Уругвайское песо в индексированных единицах"
+
+code: "UYU"
+len: "Уругвайское песо"
+
+code: "UZS"
+len: "Узбекский сум"
+
+code: "VEF"
+len: "Боливар фуэрте"
+
+code: "VND"
+len: "Донг"
+
+code: "VUV"
+len: "Вату"
+
+code: "WST"
+len: "Тала"
+
+code: "XAF"
+len: "Франк КФА BEAC"
+
+code: "XCD"
+len: "Восточно-карибский доллар"
+
+code: "XDR"
+len: "СДР (специальные права заимствования)"
+
+code: "XOF"
+len: "Франк КФА BCEAO"
+
+code: "XPF"
+len: "Франк КФП"
+
+code: "YER"
+len: "Йеменский риал"
+
+code: "ZAR"
+len: "Рэнд"
+
+code: "ZMW"
+len: "Замбийская квача"
+
+code: "ZWL"
+len: "Доллар Зимбабве"
+

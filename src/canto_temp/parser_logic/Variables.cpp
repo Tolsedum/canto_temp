@@ -11,84 +11,53 @@ canto_temp::parser_logic::Variables::Variables(
     iter_count_ = &iter_count;
     pre_cell_ = Token::Cell::unknown;
     count_read_tag_ = 0;
-    addFilterFunctions("upper", [](nlohmann::json& dict, nlohmann::json){
-        if(dict.is_string()){
-            std::string str = dict;
-            std::transform(
-                str.begin(), 
-                str.end(), 
-                str.begin(), 
-                ::toupper
-            );
-            dict = str;
+
+    std::map<std::string, std::function
+        <void(nlohmann::json&, nlohmann::json)>> fn_list{
+            {"upper", parser_logic::upper},
+            {"lower", parser_logic::lower},
+            {"abs", parser_logic::abs_},
+            {"batch", parser_logic::batch},
+            {"capitalize", parser_logic::capitalize},
+            {"column", parser_logic::column},
+            {"default", parser_logic::default_},
+            {"escape", parser_logic::escape},
+            {"first", parser_logic::first},
+            {"format", parser_logic::format},
+            {"join", parser_logic::join},
+            {"json_encode", parser_logic::json_encode},
+            {"keys", parser_logic::keys},
+            {"last", parser_logic::last},
+            {"length", parser_logic::length},
+            {"merge", parser_logic::merge},
+            {"nl2br", parser_logic::nl2br},
+            {"replace", parser_logic::replace},
+            {"reverse", parser_logic::reverse},
+            {"round", parser_logic::round},
+        };
+
+    for (auto &&fn_pair : fn_list){
+        addFilterFunctions(fn_pair.first, fn_pair.second);
+    }
+
+    addFilterFunctions("country_name", [](
+        nlohmann::json& dict, nlohmann::json params
+    ){
+        if(params.size() == 0){
+            params[0] = "ru";
         }
+        parser_logic::country_name(dict, params);
     });
-    addFilterFunctions("lower", [](nlohmann::json& dict, nlohmann::json){
-        if(dict.is_string()){
-            std::string str = dict;
-            std::transform(
-                str.begin(), 
-                str.end(), 
-                str.begin(), 
-                ::tolower
-            );
-            dict = str;
+
+    addFilterFunctions("currency_name", [](
+        nlohmann::json& dict, nlohmann::json params
+    ){
+        if(params.size() == 0){
+            params[0] = "ru";
         }
-    });
-    addFilterFunctions("abs", [](nlohmann::json& dict, nlohmann::json){
-        if(dict.is_number_unsigned()){
-            dict = abs((unsigned)dict);
-        }else if(dict.is_number_integer()){
-            dict = abs((int)dict);
-        }else if(dict.is_number_float()){
-            dict = abs((float)dict);
-        }
-    });
-    addFilterFunctions("batch", [](nlohmann::json& dict, nlohmann::json params){
-        if(dict.is_array()){
-            nlohmann::json tmp_dict;
-            std::size_t iter = 0;
-            int iter_key = 0;
-            int block_iter = 0;
-            int count_in_block = params[0];
-            std::string default_value = params[1];
-            bool flash_iter_key = true;
-            if(params.size() == 3 
-                && !(bool)params[2]
-            ){
-                flash_iter_key = false;
-            }
-            while (true){
-                if(count_in_block > 0){
-                    for (int i = 0; i < count_in_block; i++){
-                        if(iter < dict.size()){
-                            tmp_dict[block_iter][iter_key] = 
-                                dict[iter];
-                        }else{
-                            tmp_dict[block_iter][iter_key] = 
-                                default_value;
-                        }
-                        iter++;
-                        iter_key++;
-                    }
-                    if(!flash_iter_key){
-                        iter_key = 0;
-                    }
-                }else {
-                    break;
-                }
-                
-                block_iter++;
-                std::cout << "iter: " << iter << " " << dict.size() << std::endl;
-                if(dict.size() <= iter){
-                    break;
-                }
-            }
-            dict = tmp_dict;
-        }
+        parser_logic::currency_name(dict, params);
     });
 };
-
 
 void canto_temp::parser_logic::Variables::addFilterFunctions(
     std::string func_name, 
@@ -120,7 +89,6 @@ void canto_temp::parser_logic::Variables::scanBitOr(
         if(token.getCell() == Token::Cell::left_paren){
             token.next();
             params = scanParams(token);
-            std::cout << params.dump() << std::endl;
             parser_logic::skipSpace(token);
             if(token.getCell() == Token::Cell::instruction_close){
                 // token.next();
@@ -130,7 +98,6 @@ void canto_temp::parser_logic::Variables::scanBitOr(
         auto f = func_.find(name_function);
         if(f != func_.end()){
             f->second(object_value, params);
-            std::cout << object_value.dump() << std::endl;
         }else{
             // ToDo throw
             
@@ -221,12 +188,18 @@ std::string canto_temp::parser_logic::Variables::scanString(
     }
     while (token.getIterCount()){
         cell = token.getCell();
-        if(cell == Token::Cell::string
-            || cell == Token::Cell::var_close 
-            || cell == Token::Cell::instruction_close
-        ){
+        if(cell == Token::Cell::string){
             token.next();
             break;
+        }else if(token.isOperator()){
+            if(cell == Token::Cell::is_equal
+                || cell == Token::Cell::in_equal
+            ){
+                ret_value.append(1, token.getCurrent());
+                ret_value.append(1, token.getNext());
+            }else{
+                ret_value.append(1, token.getCurrent());
+            }
         }else{
             ret_value.append(1, token.getCurrent());
         }
@@ -247,8 +220,10 @@ nlohmann::json canto_temp::parser_logic::Variables::scanParams(
         }else if(cell == Token::Cell::right_paren){
             token.next();
             break; 
+        }else if(cell == Token::Cell::string){
+            ret_value[iter] = scanString(token);
+            iter++;
         }else if(cell == Token::Cell::id
-            || cell == Token::Cell::string
             || cell == Token::Cell::number
         ){
             ret_value[iter] = scanVariable(token, (*obj_list_));
@@ -397,7 +372,10 @@ nlohmann::json canto_temp::parser_logic::Variables::scanVariable(
                 break;
             }
         }
-        if(token.getCell() != Token::Cell::right_paren){
+        if(
+            token.getCell() != Token::Cell::right_paren
+            && token.getCell() != Token::Cell::bit_ore
+        ){
             token.next();
         }
     }

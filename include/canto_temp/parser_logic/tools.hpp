@@ -7,12 +7,50 @@
 #include <locale>
 #include <cctype>
 #include <algorithm>
+#include <vector>
+#include <cmath>
 #include "canto_temp/json.hpp"
 #include "ContentReader.hpp"
 #include "canto_temp/parser_logic/Token.hpp"
 
 namespace canto_temp{
 namespace parser_logic{
+
+    /** -------------------- Filters -------------------- */
+
+    void upper(nlohmann::json&, nlohmann::json);
+    void lower(nlohmann::json&, nlohmann::json);
+    void abs_(nlohmann::json&, nlohmann::json);
+    void batch(nlohmann::json&, nlohmann::json);
+    void capitalize(nlohmann::json&, nlohmann::json);
+    void column(nlohmann::json&, nlohmann::json);
+    void country_name(nlohmann::json&, nlohmann::json);
+    void currency_name(nlohmann::json&, nlohmann::json);
+    void default_(nlohmann::json&, nlohmann::json);
+    void escape(nlohmann::json&, nlohmann::json);
+    void first(nlohmann::json&, nlohmann::json);
+    void format(nlohmann::json&, nlohmann::json);
+    void join(nlohmann::json&, nlohmann::json);
+    void json_encode(nlohmann::json&, nlohmann::json);
+    void keys(nlohmann::json&, nlohmann::json);
+    void last(nlohmann::json&, nlohmann::json);
+    void length(nlohmann::json&, nlohmann::json);
+    void merge(nlohmann::json&, nlohmann::json);
+    void nl2br(nlohmann::json&, nlohmann::json);
+    void replace(nlohmann::json&, nlohmann::json);
+    void reverse(nlohmann::json&, nlohmann::json);
+    void round(nlohmann::json&, nlohmann::json);
+
+    /** ------------------- END Filters ------------------ */
+
+    std::string getLenContent(
+        std::string locale_,
+        std::string path,
+        std::string lang_code,
+        std::map<
+            std::string, std::map<std::string, std::string>>& list
+    );
+    std::map<std::string, std::string> lenReade(std::string file_path);
 
     // trim from start (in place)
     void ltrim(std::string &s);
@@ -134,6 +172,7 @@ namespace parser_logic{
         }
         return ret_value;
     }
+
 }// parser_logic
 }// canto_temp
 

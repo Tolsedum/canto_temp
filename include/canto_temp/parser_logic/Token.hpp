@@ -63,7 +63,7 @@ namespace canto_temp{
         };
     protected:
         bool next_init_, is_operator_;
-        char current_, next_;
+        char current_, next_, pre_;
         int *iter_count_;
         Cell cell_;
         std::string word;
@@ -82,6 +82,7 @@ namespace canto_temp{
         ~Token(){};
 
         void init(void);
+        bool isNextInit(){return next_init_;};
         bool isOperator(void){return is_operator_;};
         char getNext(void){return next_;};
         char getCurrent(void){return current_;};

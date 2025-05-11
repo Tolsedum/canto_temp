@@ -97,13 +97,13 @@ void pars(
                 std::cout << 
                     i << ") file test source" << i+1 
                     << ".html " << res << std::endl;
-                if(res == 'X'){
-                    std::cout 
-                        << list_result[i] 
-                        << std::endl
-                        << list_source_results[i]
-                    << std::endl;
-                }
+                // if(res == 'X'){
+                //     std::cout 
+                //         << list_result[i] 
+                //         << std::endl
+                //         << list_source_results[i]
+                //     << std::endl;
+                // }
             }
         }
 }

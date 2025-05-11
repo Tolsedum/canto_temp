@@ -252,7 +252,6 @@ void canto_temp::Parser::renderExtensions(){
         extends_->setSaveBlocks(false);
         extends_->setRender(false);
         render();
-        std::cout << (*output_) << std::endl;
     }
 }
 

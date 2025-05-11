@@ -1,0 +1,717 @@
+code: "AD"
+len: "Andorra"
+
+code: "AE"
+len: "United Arab Emirates"
+
+code: "AF"
+len: "Afghanistan"
+
+code: "AG"
+len: "Antigua and Barbuda"
+
+code: "AI"
+len: "Anguilla"
+
+code: "AL"
+len: "Albania"
+
+code: "AM"
+len: "Armenia"
+
+code: "AN"
+len: "Netherlands' Antilles"
+
+code: "AO"
+len: "Angola"
+
+code: "AQ"
+len: "Antarctic"
+
+code: "AR"
+len: "Argentina"
+
+code: "AS"
+len: "American Samoa"
+
+code: "AT"
+len: "Austria"
+
+code: "AU"
+len: "Australia"
+
+code: "AW"
+len: "Aruba"
+
+code: "AZ"
+len: "Azerbaijan"
+
+code: "BA"
+len: "Bosnia &amp; Herzegovina"
+
+code: "BB"
+len: "Barbados"
+
+code: "BD"
+len: "Bangladesh"
+
+code: "BE"
+len: "Belgium"
+
+code: "BF"
+len: "Burkina-Faso"
+
+code: "BG"
+len: "Bulgaria"
+
+code: "BH"
+len: "Bahrain"
+
+code: "BI"
+len: "Burundi"
+
+code: "BJ"
+len: "Benin"
+
+code: "BM"
+len: "Bermuda"
+
+code: "BN"
+len: "Brunei Darussalam"
+
+code: "BO"
+len: "Bolivia"
+
+code: "BR"
+len: "Brazil"
+
+code: "BS"
+len: "Bahamas"
+
+code: "BT"
+len: "Bhutan"
+
+code: "BV"
+len: "Bouvet Island"
+
+code: "BW"
+len: "Botswana"
+
+code: "BY"
+len: "Belarus"
+
+code: "BZ"
+len: "Belize"
+
+code: "CA"
+len: "Canada"
+
+code: "CC"
+len: "Cocos (Keeling) Islands"
+
+code: "CD"
+len: "Congo, Democratic Republic of the"
+
+code: "CF"
+len: "Central African Republic"
+
+code: "CG"
+len: "Congo"
+
+code: "CH"
+len: "Switzerland"
+
+code: "CI"
+len: "Cote d'Ivoire"
+
+code: "CK"
+len: "Cook Islands"
+
+code: "CL"
+len: "Chili"
+
+code: "CM"
+len: "Cameroon"
+
+code: "CN"
+len: "China"
+
+code: "CO"
+len: "Colombia"
+
+code: "CR"
+len: "Costa Rica"
+
+code: "CU"
+len: "Cuba"
+
+code: "CV"
+len: "Cape Verde"
+
+code: "CX"
+len: "Christmas Island"
+
+code: "CY"
+len: "Cyprus"
+
+code: "CZ"
+len: "Czech Republic"
+
+code: "DE"
+len: "Germany"
+
+code: "DJ"
+len: "Djibouti"
+
+code: "DK"
+len: "Denmark"
+
+code: "DM"
+len: "Dominica"
+
+code: "DO"
+len: "Dominican Republic"
+
+code: "DZ"
+len: "Algeria"
+
+code: "EC"
+len: "Ecuador"
+
+code: "EE"
+len: "Estonia"
+
+code: "EG"
+len: "Egypt"
+
+code: "EH"
+len: "Western Sahara"
+
+code: "ER"
+len: "Eritrea"
+
+code: "ES"
+len: "Spain"
+
+code: "ET"
+len: "Ethiopia"
+
+code: "FI"
+len: "Finland"
+
+code: "FJ"
+len: "Fiji"
+
+code: "FK"
+len: "Falkland (Malvinas) Islands"
+
+code: "FM"
+len: "Federated States of Micronesia"
+
+code: "FO"
+len: "Faroe Islands"
+
+code: "FR"
+len: "France"
+
+code: "GA"
+len: "Gabon"
+
+code: "GB"
+len: "Great Britain (United Kingdom)"
+
+code: "GD"
+len: "Grenada"
+
+code: "GE"
+len: "Georgia"
+
+code: "GF"
+len: "French Guyana"
+
+code: "GH"
+len: "Ghana"
+
+code: "GI"
+len: "Gibraltar"
+
+code: "GL"
+len: "Greenland"
+
+code: "GM"
+len: "Gambia"
+
+code: "GN"
+len: "Guinea"
+
+code: "GP"
+len: "Guadeloupe"
+
+code: "GQ"
+len: "Equatorial Guinea"
+
+code: "GR"
+len: "Greece"
+
+code: "GS"
+len: "South Georgia and the South Sandwich Islands"
+
+code: "GT"
+len: "Guatemala"
+
+code: "GU"
+len: "Guam"
+
+code: "GW"
+len: "Guinea-Bissau"
+
+code: "GY"
+len: "Guyana"
+
+code: "HK"
+len: "Hong Kong"
+
+code: "HM"
+len: "Heard and McDonald Islands"
+
+code: "HN"
+len: "Honduras"
+
+code: "HR"
+len: "Croatia"
+
+code: "HT"
+len: "Haiti"
+
+code: "HU"
+len: "Hungary"
+
+code: "ID"
+len: "Indonesia"
+
+code: "IE"
+len: "Ireland"
+
+code: "IL"
+len: "Israel"
+
+code: "IN"
+len: "India"
+
+code: "IO"
+len: "British Indian Ocean Territory"
+
+code: "IQ"
+len: "Iraq"
+
+code: "IR"
+len: "Iran"
+
+code: "IS"
+len: "Iceland"
+
+code: "IT"
+len: "Italy"
+
+code: "JM"
+len: "Jamaica"
+
+code: "JO"
+len: "Jordan"
+
+code: "JP"
+len: "Japan"
+
+code: "KE"
+len: "Kenya"
+
+code: "KG"
+len: "Kirghizstan"
+
+code: "KH"
+len: "Cambodia"
+
+code: "KI"
+len: "Kiribati"
+
+code: "KM"
+len: "Comoros"
+
+code: "KN"
+len: "Saint Kitts (Christopher) and Nevis"
+
+code: "KP"
+len: "Korea (North)"
+
+code: "KR"
+len: "⁠Korea (South)"
+
+code: "KW"
+len: "Kuwait"
+
+code: "KY"
+len: "Cayman Islands"
+
+code: "KZ"
+len: "Kazakhstan"
+
+code: "LA"
+len: "Lao People's Democratic Republic"
+
+code: "LB"
+len: "Lebanon"
+
+code: "LC"
+len: "Saint Lucia"
+
+code: "LI"
+len: "Liechtenstein"
+
+code: "LK"
+len: "Sri Lanka"
+
+code: "LR"
+len: "Liberia"
+
+code: "LS"
+len: "Lesotho"
+
+code: "LT"
+len: "Lithuania"
+
+code: "LU"
+len: "Luxembourg"
+
+code: "LV"
+len: "Latvia"
+
+code: "LY"
+len: "Libyan Arab Jamahiriya"
+
+code: "MA"
+len: "Marocco"
+
+code: "MC"
+len: "Monaco"
+
+code: "MD"
+len: "Moldova"
+
+code: "MG"
+len: "Madagascar"
+
+code: "MH"
+len: "Marshall Islands"
+
+code: "MK"
+len: "Macedonia"
+
+code: "ML"
+len: "Mali"
+
+code: "MM"
+len: "Myanmar"
+
+code: "MN"
+len: "Mongolia"
+
+code: "MO"
+len: "Macau (Macao)"
+
+code: "MP"
+len: "Northern Mariana Islands"
+
+code: "MQ"
+len: "Martinique"
+
+code: "MR"
+len: "Mauritania"
+
+code: "MS"
+len: "Montserrat"
+
+code: "MT"
+len: "Malta"
+
+code: "MU"
+len: "Mauritius"
+
+code: "MV"
+len: "Maldives"
+
+code: "MW"
+len: "Malawi"
+
+code: "MX"
+len: "Mexico"
+
+code: "MY"
+len: "Malaysia"
+
+code: "MZ"
+len: "Mozambique"
+
+code: "NA"
+len: "Namibia"
+
+code: "NC"
+len: "New Caledonia"
+
+code: "NE"
+len: "Niger"
+
+code: "NF"
+len: "Norfolk Island"
+
+code: "NG"
+len: "Nigeria"
+
+code: "NI"
+len: "Nicaragua"
+
+code: "NL"
+len: "Netherlands (Holland)"
+
+code: "NO"
+len: "Norway"
+
+code: "NP"
+len: "Nepal"
+
+code: "NR"
+len: "Nauru"
+
+code: "NU"
+len: "Niue"
+
+code: "NZ"
+len: "New Zealand"
+
+code: "OM"
+len: "Oman"
+
+code: "PA"
+len: "Panama"
+
+code: "PE"
+len: "Peru"
+
+code: "PF"
+len: "French Polynesia"
+
+code: "PG"
+len: "Papua New Guinea"
+
+code: "PH"
+len: "Philippines"
+
+code: "PK"
+len: "Pakistan"
+
+code: "PL"
+len: "Poland"
+
+code: "PM"
+len: "St. Pierre and Miquelon"
+
+code: "PN"
+len: "Pitcairn"
+
+code: "PR"
+len: "Puerto Rico"
+
+code: "PS"
+len: "Palestinian Territory (occupied)"
+
+code: "PT"
+len: "Portugal"
+
+code: "PW"
+len: "Palau"
+
+code: "PY"
+len: "Paraguay"
+
+code: "QA"
+len: "Qatar"
+
+code: "RE"
+len: "Reunion"
+
+code: "RO"
+len: "Romania"
+
+code: "RU"
+len: "Russia (Russian Federation)"
+
+code: "RW"
+len: "Rwanda"
+
+code: "SA"
+len: "Saudi Arabia"
+
+code: "SB"
+len: "Solomon Islands"
+
+code: "SC"
+len: "Seychelles"
+
+code: "SD"
+len: "Sudan"
+
+code: "SE"
+len: "Sweden"
+
+code: "SG"
+len: "Singapore"
+
+code: "SH"
+len: "St. Helena"
+
+code: "SI"
+len: "Slovenia"
+
+code: "SJ"
+len: "Svalbard and Jan Mayen Islands"
+
+code: "SK"
+len: "Slovak Republic"
+
+code: "SL"
+len: "Sierra Leone"
+
+code: "SM"
+len: "San Marino"
+
+code: "SN"
+len: "Senegal"
+
+code: "SO"
+len: "Somali"
+
+code: "SR"
+len: "Surinam"
+
+code: "ST"
+len: "Sao Tomea and Principe"
+
+code: "SV"
+len: "El Salvador"
+
+code: "SY"
+len: "Syria"
+
+code: "SZ"
+len: "Swaziland"
+
+code: "TC"
+len: "Turks and Caicos Islands"
+
+code: "TD"
+len: "Chad"
+
+code: "TF"
+len: "French Southern Territories"
+
+code: "TG"
+len: "Togo"
+
+code: "TH"
+len: "Thailand"
+
+code: "TJ"
+len: "Tadjikistan"
+
+code: "TK"
+len: "Tokelau"
+
+code: "TM"
+len: "Turkmenistan"
+
+code: "TN"
+len: "Tunisia"
+
+code: "TO"
+len: "Tonga"
+
+code: "TP"
+len: "East Timor"
+
+code: "TR"
+len: "Turkey"
+
+code: "TT"
+len: "Trinidad and Tobago"
+
+code: "TV"
+len: "Tuvalu"
+
+code: "TW"
+len: "Taiwan"
+
+code: "TZ"
+len: "Tanzania"
+
+code: "UA"
+len: "Ukraine"
+
+code: "UG"
+len: "Uganda"
+
+code: "UM"
+len: "United States Minor Outlying Islands"
+
+code: "US"
+len: "United States of America"
+
+code: "UY"
+len: "Uruguay"
+
+code: "UZ"
+len: "Uzbekistan"
+
+code: "VA"
+len: "Vatican (Holy See)"
+
+code: "VC"
+len: "Saint Vincent and the Grenadines"
+
+code: "VE"
+len: "Venezuela"
+
+code: "VG"
+len: "Virgin Islands, British"
+
+code: "VI"
+len: "Virgin Islands, US"
+
+code: "VN"
+len: "Viet Nam"
+
+code: "VU"
+len: "Vanuatu"
+
+code: "WF"
+len: "Wallis and Futuna Islands"
+
+code: "WS"
+len: "Samoa"
+
+code: "YE"
+len: "Yemen"
+
+code: "YT"
+len: "Mayotte"
+
+code: "YU"
+len: "Yugoslavia"
+
+code: "ZA"
+len: "South Africa"
+
+code: "ZM"
+len: "Zambia"
+
+code: "ZW"
+len: "Zimbabwe"
+

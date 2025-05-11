@@ -1,0 +1,483 @@
+code: "AED"
+len: "UAE Dirham"
+
+code: "AFN"
+len: "Afghani"
+
+code: "ALL"
+len: "Lek"
+
+code: "AMD"
+len: "Armenian Dram"
+
+code: "ANG"
+len: "Netherlands Antillean Guilder"
+
+code: "AOA"
+len: "Kwanza"
+
+code: "ARS"
+len: "Argentine Peso"
+
+code: "AUD"
+len: "Australian Dollar"
+
+code: "AWG"
+len: "Aruban Florin"
+
+code: "AZN"
+len: "Azerbaijanian Manat"
+
+code: "BAM"
+len: "Convertible Mark"
+
+code: "BBD"
+len: "Barbados Dollar"
+
+code: "BDT"
+len: "Taka"
+
+code: "BGN"
+len: "Bulgarian Lev"
+
+code: "BHD"
+len: "Bahraini Dinar"
+
+code: "BIF"
+len: "Burundi Franc"
+
+code: "BMD"
+len: "Bermudian Dollar"
+
+code: "BND"
+len: "Brunei Dollar"
+
+code: "BOB"
+len: "Boliviano"
+
+code: "BRL"
+len: "Brazilian Real"
+
+code: "BSD"
+len: "Bahamian Dollar"
+
+code: "BTN"
+len: "Ngultrum"
+
+code: "BWP"
+len: "Pula"
+
+code: "BYN"
+len: "Belarusian Ruble"
+
+code: "BZD"
+len: "Belize Dollar"
+
+code: "CAD"
+len: "Canadian Dollar"
+
+code: "CDF"
+len: "Congolese Franc"
+
+code: "CHF"
+len: "Swiss Franc"
+
+code: "CLP"
+len: "Chilean Peso"
+
+code: "CNY"
+len: "Yuan Renminbi"
+
+code: "COP"
+len: "Colombian Peso"
+
+code: "COU"
+len: "Unidad de Valor Real"
+
+code: "CRC"
+len: "Costa Rican Colon"
+
+code: "CUC"
+len: "Peso Convertible"
+
+code: "CUP"
+len: "Cuban Peso"
+
+code: "CVE"
+len: "Cape Verde Escudo"
+
+code: "CZK"
+len: "Czech Koruna"
+
+code: "DJF"
+len: "Djibouti Franc"
+
+code: "DKK"
+len: "Danish Krone"
+
+code: "DOP"
+len: "Dominican Peso"
+
+code: "DZD"
+len: "Algerian Dinar"
+
+code: "EGP"
+len: "Egyptian Pound"
+
+code: "ERN"
+len: "Nakfa"
+
+code: "ETB"
+len: "Ethiopian Birr"
+
+code: "EUR"
+len: "Euro"
+
+code: "FJD"
+len: "Fiji Dollar"
+
+code: "FKP"
+len: "Falkland Islands Pound"
+
+code: "GBP"
+len: "Pound Sterling"
+
+code: "GEL"
+len: "Lari"
+
+code: "GHS"
+len: "Ghana Cedi"
+
+code: "GIP"
+len: "Gibraltar Pound"
+
+code: "GMD"
+len: "Dalasi"
+
+code: "GNF"
+len: "Guinea Franc"
+
+code: "GTQ"
+len: "Quetzal"
+
+code: "GYD"
+len: "Guyana Dollar"
+
+code: "HKD"
+len: "Hong Kong Dollar"
+
+code: "HNL"
+len: "Lempira"
+
+code: "HRK"
+len: "Kuna"
+
+code: "HTG"
+len: "Gourde"
+
+code: "HUF"
+len: "Forint"
+
+code: "IDR"
+len: "Rupiah"
+
+code: "ILS"
+len: "New Israeli Sheqel"
+
+code: "INR"
+len: "Indian Rupee"
+
+code: "IQD"
+len: "Iraqi Dinar"
+
+code: "IRR"
+len: "Iranian Rial"
+
+code: "ISK"
+len: "Iceland Krona"
+
+code: "JMD"
+len: "Jamaican Dollar"
+
+code: "JOD"
+len: "Jordanian Dinar"
+
+code: "JPY"
+len: "Yen"
+
+code: "KES"
+len: "Kenyan Shilling"
+
+code: "KGS"
+len: "Som"
+
+code: "KHR"
+len: "Riel"
+
+code: "KMF"
+len: "Comoro Franc"
+
+code: "KPW"
+len: "North Korean Won"
+
+code: "KRW"
+len: "Won"
+
+code: "KWD"
+len: "Kuwaiti Dinar"
+
+code: "KYD"
+len: "Cayman Islands Dollar"
+
+code: "KZT"
+len: "Tenge"
+
+code: "LAK"
+len: "Kip"
+
+code: "LBP"
+len: "Lebanese Pound"
+
+code: "LKR"
+len: "Sri Lanka Rupee"
+
+code: "LRD"
+len: "Liberian Dollar"
+
+code: "LSL"
+len: "Loti"
+
+code: "LTL"
+len: "Lithuanian Litas"
+
+code: "LYD"
+len: "Libyan Dinar"
+
+code: "MAD"
+len: "Moroccan Dirham"
+
+code: "MDL"
+len: "Moldovan Leu"
+
+code: "MGA"
+len: "Malagasy Ariary"
+
+code: "MKD"
+len: "Denar"
+
+code: "MMK"
+len: "Kyat"
+
+code: "MNT"
+len: "Tugrik"
+
+code: "MOP"
+len: "Pataca"
+
+code: "MRO"
+len: "Ouguiya"
+
+code: "MUR"
+len: "Mauritius Rupee"
+
+code: "MVR"
+len: "Rufiyaa"
+
+code: "MWK"
+len: "Kwacha"
+
+code: "MXN"
+len: "Mexican Peso"
+
+code: "MYR"
+len: "Malaysian Ringgit"
+
+code: "MZN"
+len: "Mozambique Metical"
+
+code: "NAD"
+len: "Namibia Dollar"
+
+code: "NGN"
+len: "Naira"
+
+code: "NIO"
+len: "Cordoba Oro"
+
+code: "NOK"
+len: "Norwegian Krone"
+
+code: "NPR"
+len: "Nepalese Rupee"
+
+code: "NZD"
+len: "New Zealand Dollar"
+
+code: "OMR"
+len: "Rial Omani"
+
+code: "PAB"
+len: "Balboa"
+
+code: "PEN"
+len: "Nuevo Sol"
+
+code: "PGK"
+len: "Kina"
+
+code: "PHP"
+len: "Philippine Peso"
+
+code: "PKR"
+len: "Pakistan Rupee"
+
+code: "PLN"
+len: "Zloty"
+
+code: "PYG"
+len: "Guarani"
+
+code: "QAR"
+len: "Qatari Rial"
+
+code: "RON"
+len: "Romanian Leu"
+
+code: "RSD"
+len: "Serbian Dinar"
+
+code: "RUB"
+len: "Russian Ruble"
+
+code: "RWF"
+len: "Rwanda Franc"
+
+code: "SAR"
+len: "Saudi Riyal"
+
+code: "SBD"
+len: "Solomon Islands Dollar"
+
+code: "SCR"
+len: "Seychelles Rupee"
+
+code: "SDG"
+len: "Sudanese Pound"
+
+code: "SEK"
+len: "Swedish Krona"
+
+code: "SGD"
+len: "Singapore Dollar"
+
+code: "SHP"
+len: "Saint Helena Pound"
+
+code: "SLL"
+len: "Leone"
+
+code: "SOS"
+len: "Somali Shilling"
+
+code: "SRD"
+len: "Surinam Dollar"
+
+code: "SSP"
+len: "South Sudanese Pound"
+
+code: "STD"
+len: "Dobra"
+
+code: "SVC"
+len: "El Salvador Colon"
+
+code: "SYP"
+len: "Syrian Pound"
+
+code: "SZL"
+len: "Lilangeni"
+
+code: "THB"
+len: "Baht"
+
+code: "TJS"
+len: "Somoni"
+
+code: "TMT"
+len: "Turkmenistan New Manat"
+
+code: "TND"
+len: "Tunisian Dinar"
+
+code: "TOP"
+len: "Pa’anga"
+
+code: "TRY"
+len: "Turkish Lira"
+
+code: "TTD"
+len: "Trinidad and Tobago Dollar"
+
+code: "TWD"
+len: "New Taiwan Dollar"
+
+code: "TZS"
+len: "Tanzanian Shilling"
+
+code: "UAH"
+len: "Hryvnia"
+
+code: "UGX"
+len: "Uganda Shilling"
+
+code: "USD"
+len: "US Dollar"
+
+code: "UYI"
+len: "Urguguay Peso en Unidades Indexadas"
+
+code: "UYU"
+len: "Peso Uruguayo"
+
+code: "UZS"
+len: "Uzbekistan Sum"
+
+code: "VEF"
+len: "Bolívar"
+
+code: "VND"
+len: "Dong"
+
+code: "VUV"
+len: "Vatu"
+
+code: "WST"
+len: "Tala"
+
+code: "XAF"
+len: "CFA Franc BEAC"
+
+code: "XCD"
+len: "East Caribbean Dollar"
+
+code: "XDR"
+len: "SDR (Special Drawing Right)"
+
+code: "XOF"
+len: "CFA Franc BCEAO"
+
+code: "XPF"
+len: "CFP Franc"
+
+code: "YER"
+len: "Yemeni Rial"
+
+code: "ZAR"
+len: "Rand"
+
+code: "ZMW"
+len: "Zambian Kwacha"
+
+code: "ZWL"
+len: "Zimbabwe Dollar"
+
