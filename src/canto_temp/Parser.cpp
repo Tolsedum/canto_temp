@@ -200,6 +200,18 @@ void canto_temp::Parser::addFilterFunctions(
     var_controller_->addFilterFunctions(func_name, f);
 }
 
+void canto_temp::Parser::addInstructionFunction(
+    std::string& func_name, 
+    std::function<void(Tag&)> func
+){
+    if(instructions_.find(func_name) == instructions_.end()){
+        instructions_[func_name] = func;
+    }else{
+        // ToDo throw
+        std::cout << "function exists" << std::endl;
+    }
+}
+
 /***************************** END Public *****************************/
 
 /***************************** Private *****************************/
@@ -236,6 +248,11 @@ void canto_temp::Parser::readInstruction(
             includeInstruction(tag);
         }else if(instruction == "for"){
             forInstruction(tag);
+        }else{
+            auto f = instructions_.find(instruction);
+            if(f != instructions_.end()){
+                f->second(tag);
+            }
         }
     }
 }

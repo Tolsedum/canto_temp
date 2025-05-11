@@ -11,9 +11,13 @@ namespace canto_temp{
         std::string* output_;
         ContentReader container_;
         std::shared_ptr<parser_logic::Variables> var_controller_;
-        std::map<std::string, nlohmann::json> obj_list_;
-
         std::shared_ptr<parser_logic::Extends> extends_;
+        std::map<std::string, nlohmann::json> obj_list_;
+        std::map<std::string, std::function
+            <void(Tag&)>
+        > instructions_;
+        
+
         
         void append(char c);
         void append(std::string str);
@@ -90,6 +94,11 @@ namespace canto_temp{
         void addFilterFunctions(
             std::string& func_name, 
             std::function<void(nlohmann::json&, nlohmann::json)>
+        );
+
+        void addInstructionFunction(
+            std::string& func_name, 
+            std::function<void(Tag &tag)>
         );
     };
 };
