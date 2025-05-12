@@ -44,7 +44,7 @@ namespace parser_logic{
 
     /** ------------------- END Filters ------------------ */
 
-    std::string entityParser(std::string text);
+    std::string htmlEscaping(std::string text);
 
     std::string getLenContent(
         std::string locale_,

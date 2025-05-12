@@ -366,11 +366,11 @@ void canto_temp::parser_logic::round(
 void canto_temp::parser_logic::e(
     nlohmann::json& dict, nlohmann::json
 ){
-    dict = entityParser(dict.get<std::string>());
+    dict = htmlEscaping(dict.get<std::string>());
 }
 /** ------------------- END Filters ------------------ */
 
- std::string canto_temp::parser_logic::entityParser(std::string text){
+ std::string canto_temp::parser_logic::htmlEscaping(std::string text){
     std::unordered_map<std::string, char> convert({
         {"&quot;", '"'},
         {"&apos;", '\''},
@@ -406,8 +406,6 @@ void canto_temp::parser_logic::e(
             }else if(amp_iter == std::string::npos){
                 if(text[i] == it->second){
                     res.append(it->first);
-                    // append = false;
-                    // break;
                     goto skip_append_char;
                 }
             }else{
