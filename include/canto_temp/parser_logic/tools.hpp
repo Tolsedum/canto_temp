@@ -40,8 +40,11 @@ namespace parser_logic{
     void replace(nlohmann::json&, nlohmann::json);
     void reverse(nlohmann::json&, nlohmann::json);
     void round(nlohmann::json&, nlohmann::json);
+    void e(nlohmann::json&, nlohmann::json);
 
     /** ------------------- END Filters ------------------ */
+
+    std::string entityParser(std::string text);
 
     std::string getLenContent(
         std::string locale_,

@@ -34,6 +34,7 @@ canto_temp::parser_logic::Variables::Variables(
             {"replace", parser_logic::replace},
             {"reverse", parser_logic::reverse},
             {"round", parser_logic::round},
+            {"e", parser_logic::e},
         };
 
     for (auto &&fn_pair : fn_list){

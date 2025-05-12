@@ -277,13 +277,12 @@ void parserLang(){
  */
 
 int main(){ // int argc, char *argv[]
-    // std::string str{"\"I like %s and %s.\""};
+    std::string str{"&gt;  A 'quote' is <b>\"bold\"</b>   &frasl;"};
+    std::cout <<
+        canto_temp::parser_logic::entityParser(str)
+    << std::endl;
 
-    // std::size_t pos = str.find("%s");
-    // std::string tmp = str.substr(pos);
-    // str.erase(pos);
-    // std::cout << str << std::endl <<  tmp << std::endl;
-    testVar();
+    // testVar();
     // parserMony();
     // parserLang();
     // exit(0);

@@ -98,7 +98,7 @@ namespace canto_temp{
 
         void addInstructionFunction(
             std::string& func_name, 
-            std::function<void(Tag &tag)>
+            std::function<void(Tag&)>
         );
     };
 };

@@ -363,7 +363,72 @@ void canto_temp::parser_logic::round(
     }
 }
 
+void canto_temp::parser_logic::e(
+    nlohmann::json& dict, nlohmann::json
+){
+    dict = entityParser(dict.get<std::string>());
+}
 /** ------------------- END Filters ------------------ */
+
+ std::string canto_temp::parser_logic::entityParser(std::string text){
+    std::unordered_map<std::string, char> convert({
+        {"&quot;", '"'},
+        {"&apos;", '\''},
+        {"&amp;", '&'},
+        {"&gt;", '>'},
+        {"&lt;", '<'},
+        {"&frasl;", '/'}
+    });
+    std::string res{}, tmp{};
+    std::size_t amp_iter = std::string::npos;
+    bool is_from_convert = false;
+    bool append = true;
+    for (std::size_t i = 0; i < text.size(); ++ i) {
+        if(text[i] == '&'){
+            amp_iter = i;
+            tmp.append(1, text[i]);
+            append = false;
+        }else if(amp_iter != std::string::npos){
+            tmp.append(1, text[i]);
+            if(text[i] == ';'){
+                is_from_convert = true;
+            }
+        }
+        for (auto it = begin(convert); it != end(convert); ++ it) {
+            if(is_from_convert){
+                if(tmp == it->first){
+                    is_from_convert = false;
+                    amp_iter = std::string::npos;
+                    append = true;
+                    res.append(tmp);
+                    break;
+                }
+            }else if(amp_iter == std::string::npos){
+                if(text[i] == it->second){
+                    res.append(it->first);
+                    // append = false;
+                    // break;
+                    goto skip_append_char;
+                }
+            }else{
+                break;
+            }
+        }
+        if(is_from_convert){
+            is_from_convert = false;
+            amp_iter = std::string::npos;
+            res.append(tmp);
+        }else if (append) {
+            if(tmp.size() > 0){
+                tmp.clear();
+            }else{
+                res += text[i];
+            }
+        }
+skip_append_char:
+    }
+    return res;
+}
 
 std::map<std::string, std::string> canto_temp::parser_logic::lenReade(
     std::string file_path
